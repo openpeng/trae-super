@@ -11,8 +11,8 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
   --ocean-deep:#0a1628;--ocean-mid:#0d2847;--ocean-surface:#1a4a7a;
-  --wave-1:#1e6fc4;--wave-2:#2d8cf0;--wave-3:#06b6d4;
-  --sunset:#f59e0b;--sunset-glow:#fbbf24;--danger:#ef4444;--danger-glow:#f87171;
+  --wave-1:#1e6fc4;--wave-2:#4FC3F7;--wave-3:#06b6d4;
+  --sunset:#FF7043;--sunset-glow:#fbbf24;--danger:#ef4444;--danger-glow:#f87171;
   --success:#10b981;--success-glow:#34d399;--life:#ec4899;--life-glow:#f472b6;
   --text:#f1f5f9;--text-dim:#94a3b8;--glass:rgba(255,255,255,0.06);--glass-border:rgba(255,255,255,0.1);
   --island-green:#10b981;--island-sand:#f59e0b;--island-rock:#64748b;
@@ -29,12 +29,12 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 /* ===== 导航 ===== */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(10,22,40,0.9) 0%,transparent 100%);}
 .nav-brand{display:flex;align-items:center;gap:0.6rem;}
-.nav-brand .logo{width:36px;height:36px;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 20px rgba(45,140,240,0.4);animation:logoPulse 3s ease-in-out infinite;}
-@keyframes logoPulse{0%,100%{box-shadow:0 0 20px rgba(45,140,240,0.4);}50%{box-shadow:0 0 30px rgba(45,140,240,0.7);}}
+.nav-brand .logo{width:36px;height:36px;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 20px rgba(79,195,247,0.4);animation:logoPulse 3s ease-in-out infinite;}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 20px rgba(79,195,247,0.4);}50%{box-shadow:0 0 30px rgba(79,195,247,0.7);}}
 .nav-brand span{font-weight:700;font-size:1.05rem;letter-spacing:0.5px;}
 .nav-dots{display:flex;gap:0.5rem;align-items:center;}
 .nav-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all 0.4s;cursor:pointer;position:relative;}
-.nav-dot.active{width:28px;border-radius:999px;background:linear-gradient(90deg,var(--wave-2),var(--wave-3));box-shadow:0 0 12px rgba(45,140,240,0.5);}
+.nav-dot.active{width:28px;border-radius:999px;background:linear-gradient(90deg,var(--wave-2),var(--wave-3));box-shadow:0 0 12px rgba(79,195,247,0.5);}
 
 /* ===== 页面系统 ===== */
 .page{position:fixed;inset:0;z-index:10;display:none;flex-direction:column;overflow-y:auto;overflow-x:hidden;padding-top:70px;}
@@ -45,14 +45,14 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 /* ===== 玻璃卡片 ===== */
 .glass{background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px;padding:1.5rem;position:relative;overflow:hidden;}
 .glass::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);}
-.glass-glow{box-shadow:0 0 40px rgba(45,140,240,0.1),inset 0 1px 0 rgba(255,255,255,0.05);}
+.glass-glow{box-shadow:0 0 40px rgba(79,195,247,0.1),inset 0 1px 0 rgba(255,255,255,0.05);}
 
 /* ===== 通用组件 ===== */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.75rem 1.5rem;border-radius:999px;border:none;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:inherit;color:#fff;}
-.btn-primary{background:linear-gradient(135deg,var(--wave-2),var(--wave-3));box-shadow:0 4px 20px rgba(45,140,240,0.4);}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(45,140,240,0.5);}
-.btn-accent{background:linear-gradient(135deg,var(--sunset),#d97706);box-shadow:0 4px 20px rgba(245,158,11,0.4);}
-.btn-accent:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(245,158,11,0.5);}
+.btn-primary{background:linear-gradient(135deg,var(--wave-2),var(--wave-3));box-shadow:0 4px 20px rgba(79,195,247,0.4);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(79,195,247,0.5);}
+.btn-accent{background:linear-gradient(135deg,var(--sunset),#d97706);box-shadow:0 4px 20px rgba(255,112,67,0.4);}
+.btn-accent:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(255,112,67,0.5);}
 .btn-outline{background:transparent;border:2px solid var(--glass-border);color:var(--text);}
 .btn-outline:hover{border-color:var(--wave-2);color:var(--wave-2);}
 .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none !important;}
@@ -60,33 +60,136 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 .btn-sm{padding:0.5rem 1rem;font-size:0.85rem;}
 
 .tag{display:inline-block;padding:0.25rem 0.75rem;border-radius:999px;font-size:0.8rem;font-weight:500;}
-.tag-accent{background:rgba(245,158,11,0.15);color:var(--sunset-glow);border:1px solid rgba(245,158,11,0.3);}
+.tag-accent{background:rgba(255,112,67,0.15);color:var(--sunset-glow);border:1px solid rgba(255,112,67,0.3);}
 .tag-success{background:rgba(16,185,129,0.15);color:var(--success-glow);border:1px solid rgba(16,185,129,0.3);}
 .tag-danger{background:rgba(239,68,68,0.15);color:var(--danger-glow);border:1px solid rgba(239,68,68,0.3);}
 
 /* ===== 首页 ===== */
-.hero-section{text-align:center;padding:2rem 0 1rem;}
-.hero-mascot{font-size:5rem;margin-bottom:0.5rem;display:inline-block;position:relative;animation:float 3s ease-in-out infinite;}
-@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-.hero-title{font-size:2rem;font-weight:900;background:linear-gradient(135deg,#fff,var(--wave-3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.5rem;}
-.hero-sub{color:var(--text-dim);font-size:1rem;max-width:420px;margin:0 auto 1.5rem;}
+.hero-section{text-align:center;padding:2rem 0 1rem;position:relative;}
 
+/* ===== 1. CSS 波浪吉祥物 ===== */
+.hero-mascot{width:120px;height:140px;margin:0 auto 0.5rem;display:block;position:relative;animation:mascotFloat 3s ease-in-out infinite;}
+@keyframes mascotFloat{
+  0%,100%{transform:translateY(0) scale(1);}
+  25%{transform:translateY(-12px) scale(1.02);}
+  50%{transform:translateY(-6px) scale(0.98);}
+  75%{transform:translateY(-14px) scale(1.01);}
+}
+/* 身体 */
+.mascot-body{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:80px;height:90px;background:linear-gradient(180deg,#4FC3F7 0%,#0288D1 100%);border-radius:50% 50% 45% 45% / 55% 55% 40% 40%;box-shadow:0 8px 30px rgba(79,195,247,0.4),inset 0 -10px 20px rgba(0,0,0,0.15),inset 0 10px 20px rgba(255,255,255,0.15);}
+/* 身体高光 */
+.mascot-body::before{content:'';position:absolute;top:12px;left:15px;width:20px;height:30px;background:rgba(255,255,255,0.2);border-radius:50%;transform:rotate(-15deg);}
+/* 眼睛 */
+.mascot-eye{position:absolute;top:28px;width:18px;height:20px;background:#fff;border-radius:50%;box-shadow:inset 0 2px 4px rgba(0,0,0,0.1);}
+.mascot-eye::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:#1a237e;border-radius:50%;}
+.mascot-eye::before{content:'';position:absolute;bottom:7px;left:calc(50% + 1px);transform:translateX(-50%);width:4px;height:4px;background:#fff;border-radius:50%;z-index:2;}
+.mascot-eye.left{left:calc(50% - 22px);}
+.mascot-eye.right{left:calc(50% + 4px);}
+/* 嘴巴 */
+.mascot-mouth{position:absolute;top:52px;left:50%;transform:translateX(-50%);width:16px;height:8px;border-bottom:3px solid #fff;border-radius:0 0 50% 50%;}
+/* 腮红 */
+.mascot-blush{position:absolute;top:50px;width:14px;height:8px;background:rgba(255,138,128,0.4);border-radius:50%;}
+.mascot-blush.left{left:calc(50% - 32px);}
+.mascot-blush.right{left:calc(50% + 18px);}
+/* 头顶波浪装饰 */
+.mascot-wave-crest{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:40px;height:20px;background:linear-gradient(180deg,#81D4FA,#4FC3F7);border-radius:50% 50% 0 0 / 100% 100% 0 0;box-shadow:0 -2px 10px rgba(79,195,247,0.3);}
+.mascot-wave-crest::before{content:'';position:absolute;top:-6px;left:8px;width:24px;height:14px;background:linear-gradient(180deg,#B3E5FC,#81D4FA);border-radius:50% 50% 0 0 / 100% 100% 0 0;}
+/* 小手 */
+.mascot-hand{position:absolute;top:55px;width:22px;height:16px;background:linear-gradient(180deg,#4FC3F7,#0288D1);border-radius:0 50% 50% 50%;box-shadow:0 2px 8px rgba(79,195,247,0.3);animation:handWave 2s ease-in-out infinite;}
+.mascot-hand.left{left:-6px;transform:rotate(-20deg);border-radius:50% 0 50% 50%;animation-delay:0s;}
+.mascot-hand.right{right:-6px;transform:rotate(20deg);animation-delay:0.5s;}
+@keyframes handWave{
+  0%,100%{transform:rotate(-20deg) translateY(0);}
+  50%{transform:rotate(-35deg) translateY(-5px);}
+}
+.mascot-hand.right{
+  animation-name:handWaveRight;
+}
+@keyframes handWaveRight{
+  0%,100%{transform:rotate(20deg) translateY(0);}
+  50%{transform:rotate(35deg) translateY(-5px);}
+}
+/* 底部小脚 */
+.mascot-foot{position:absolute;bottom:0;width:24px;height:12px;background:linear-gradient(180deg,#0288D1,#01579B);border-radius:50% 50% 40% 40%;box-shadow:0 2px 6px rgba(0,0,0,0.2);}
+.mascot-foot.left{left:calc(50% - 22px);}
+.mascot-foot.right{left:calc(50% + 2px);}
+
+/* ===== 9. 首页标题动画 ===== */
+.hero-title{font-size:2rem;font-weight:900;background:linear-gradient(90deg,#fff,var(--wave-2),var(--wave-3),#fff,var(--wave-2));background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem;animation:titleGradient 4s linear infinite;}
+@keyframes titleGradient{0%{background-position:0% 50%;}100%{background-position:300% 50%;}}
+.hero-sub{color:var(--text-dim);font-size:1rem;max-width:420px;margin:0 auto 1.5rem;animation:subtitleFadeIn 1s ease 0.3s both;}
+@keyframes subtitleFadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ===== 2. 数据卡片优化 ===== */
 .counter-row{display:flex;justify-content:center;gap:1rem;margin:1.5rem 0;flex-wrap:wrap;}
-.counter-item{text-align:center;padding:1rem 1.25rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;min-width:90px;}
-.counter-num{font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.counter-num.danger{background:linear-gradient(135deg,var(--danger),var(--danger-glow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.counter-label{font-size:0.75rem;color:var(--text-dim);margin-top:0.2rem;}
+.counter-item{text-align:center;padding:1.2rem 1.5rem;background:linear-gradient(135deg,rgba(79,195,247,0.12),rgba(6,182,212,0.08));border:1px solid rgba(79,195,247,0.2);border-radius:20px;min-width:100px;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 4px 15px rgba(0,0,0,0.1);}
+.counter-item:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(79,195,247,0.2),0 4px 15px rgba(0,0,0,0.1);border-color:rgba(79,195,247,0.4);}
+.counter-num{font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.counter-num.danger{background:linear-gradient(135deg,#FF6B6B,#FF8E53);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.counter-label{font-size:0.8rem;color:var(--text-dim);margin-top:0.3rem;font-weight:500;}
 
-.input-field{width:100%;padding:0.875rem 1.25rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;color:var(--text);font-size:1rem;outline:none;font-family:inherit;transition:all 0.3s;}
-.input-field:focus{border-color:var(--wave-2);box-shadow:0 0 20px rgba(45,140,240,0.15);}
+/* ===== 3. 输入框优化 ===== */
+.input-field{width:100%;padding:0.875rem 1.5rem;background:rgba(255,255,255,0.04);border:2px solid var(--glass-border);border-radius:999px;color:var(--text);font-size:1rem;outline:none;font-family:inherit;transition:all 0.3s;box-shadow:inset 0 2px 8px rgba(0,0,0,0.15),0 1px 3px rgba(0,0,0,0.1);}
+.input-field:focus{border-color:var(--wave-2);box-shadow:inset 0 2px 8px rgba(0,0,0,0.15),0 0 0 4px rgba(79,195,247,0.15),0 0 20px rgba(79,195,247,0.1);}
 .input-field::placeholder{color:var(--text-dim);}
 
-.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin:1rem 0;}
-.diff-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;padding:0.875rem;text-align:center;cursor:pointer;transition:all 0.3s;font-size:0.85rem;}
-.diff-card:hover{border-color:var(--wave-2);}
-.diff-card.selected{border-color:var(--wave-2);background:rgba(45,140,240,0.1);}
-.diff-card .diff-name{font-weight:700;font-size:0.9rem;}
-.diff-card .diff-age{color:var(--text-dim);font-size:0.75rem;margin-top:0.2rem;}
+/* ===== 4. 年龄选择卡片优化 ===== */
+.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin:1rem 0;}
+.diff-card{background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.08);border-radius:16px;padding:1rem;text-align:center;cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);font-size:0.85rem;position:relative;overflow:hidden;}
+.diff-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(79,195,247,0.15),rgba(6,182,212,0.1));opacity:0;transition:opacity 0.3s;border-radius:14px;}
+.diff-card:hover{border-color:var(--wave-2);background:rgba(79,195,247,0.06);}
+.diff-card:hover::before{opacity:0.5;}
+.diff-card.selected{border-color:transparent;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));transform:scale(1.05);box-shadow:0 8px 25px rgba(79,195,247,0.35);}
+.diff-card.selected::before{opacity:0;}
+.diff-card.selected .diff-name{color:#fff;}
+.diff-card.selected .diff-age{color:rgba(255,255,255,0.85);}
+.diff-card .diff-name{font-weight:700;font-size:0.9rem;position:relative;z-index:1;}
+.diff-card .diff-age{color:var(--text-dim);font-size:0.75rem;margin-top:0.2rem;position:relative;z-index:1;}
+
+/* ===== 5. 主按钮优化 ===== */
+.start-btn-wrap{text-align:center;margin:1.5rem 0;}
+.btn-start{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 2.5rem;border-radius:999px;border:none;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);font-family:inherit;color:#fff;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));box-shadow:0 8px 30px rgba(79,195,247,0.4),0 2px 8px rgba(0,0,0,0.2);position:relative;overflow:hidden;}
+.btn-start::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);transition:left 0.5s;}
+.btn-start:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(79,195,247,0.5),0 4px 12px rgba(0,0,0,0.2);}
+.btn-start:hover::before{left:100%;}
+.btn-start:active{transform:translateY(0) scale(0.98);box-shadow:0 4px 15px rgba(79,195,247,0.3);}
+.btn-start .btn-icon{font-size:1.3rem;}
+
+/* ===== 6. 底部珊瑚/海草装饰 ===== */
+.coral-decor{position:relative;height:60px;margin-top:1rem;overflow:hidden;}
+.coral{position:absolute;bottom:0;border-radius:50% 50% 0 0;animation:coralSway 3s ease-in-out infinite;}
+.coral-1{left:10%;width:30px;height:45px;background:linear-gradient(180deg,#FF8A65,#FF7043);animation-delay:0s;}
+.coral-2{left:25%;width:22px;height:35px;background:linear-gradient(180deg,#F48FB1,#EC407A);animation-delay:0.5s;}
+.coral-3{left:70%;width:26px;height:40px;background:linear-gradient(180deg,#CE93D8,#AB47BC);animation-delay:1s;}
+.coral-4{left:85%;width:20px;height:30px;background:linear-gradient(180deg,#FFAB91,#FF8A65);animation-delay:1.5s;}
+.coral-5{left:50%;width:18px;height:28px;background:linear-gradient(180deg,#80CBC4,#4DB6AC);animation-delay:0.8s;}
+@keyframes coralSway{
+  0%,100%{transform:rotate(-3deg);}
+  50%{transform:rotate(3deg);}
+}
+/* 海草 */
+.seaweed{position:absolute;bottom:0;width:8px;border-radius:4px 4px 0 0;animation:seaweedSway 4s ease-in-out infinite;transform-origin:bottom center;}
+.seaweed-1{left:18%;height:50px;background:linear-gradient(180deg,#66BB6A,#2E7D32);animation-delay:0.2s;}
+.seaweed-2{left:40%;height:40px;background:linear-gradient(180deg,#81C784,#388E3C);animation-delay:0.8s;}
+.seaweed-3{left:62%;height:45px;background:linear-gradient(180deg,#A5D6A7,#43A047);animation-delay:1.4s;}
+.seaweed-4{left:78%;height:35px;background:linear-gradient(180deg,#66BB6A,#2E7D32);animation-delay:0.6s;}
+@keyframes seaweedSway{
+  0%,100%{transform:rotate(-5deg) scaleY(1);}
+  25%{transform:rotate(2deg) scaleY(1.02);}
+  50%{transform:rotate(5deg) scaleY(1);}
+  75%{transform:rotate(-2deg) scaleY(0.98);}
+}
+
+/* ===== 7. "怎么玩"区域优化 ===== */
+.howto-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px;padding:1.5rem;margin-top:1rem;position:relative;overflow:hidden;}
+.howto-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);}
+.howto-title{font-size:0.95rem;font-weight:700;margin-bottom:1rem;color:var(--text-dim);display:flex;align-items:center;gap:0.4rem;}
+.howto-steps{display:flex;flex-direction:column;gap:0;position:relative;padding-left:0;}
+.howto-step{display:flex;align-items:flex-start;gap:1rem;padding:0.6rem 0;position:relative;}
+.howto-step:not(:last-child)::after{content:'';position:absolute;left:17px;top:42px;width:2px;height:calc(100% - 10px);background:linear-gradient(180deg,rgba(79,195,247,0.3),rgba(79,195,247,0.05));}
+.step-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:800;color:#fff;box-shadow:0 4px 12px rgba(79,195,247,0.3);}
+.step-text{font-size:0.85rem;color:var(--text-dim);line-height:1.8;padding-top:0.3rem;}
+.step-text strong{color:var(--wave-2);font-weight:600;}
 
 /* ===== 安全岛地图 ===== */
 .island-map{position:relative;width:100%;height:500px;border-radius:24px;overflow:hidden;background:linear-gradient(180deg,#1e40af 0%,#0ea5e9 40%,#10b981 40%,#22c55e 100%);margin:1rem 0;}
@@ -126,7 +229,7 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 #scene-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;}
 
 .character-card{display:flex;align-items:center;gap:1rem;padding:1.25rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;margin:1rem 0;}
-.character-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--sunset),#d97706);display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 0 20px rgba(245,158,11,0.3);animation:avatarFloat 3s ease-in-out infinite;transition:border-color 0.5s, box-shadow 0.5s;border:3px solid var(--danger);}
+.character-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--sunset),#d97706);display:flex;align-items:center;justify-content:center;font-size:2rem;box-shadow:0 0 20px rgba(255,112,67,0.3);animation:avatarFloat 3s ease-in-out infinite;transition:border-color 0.5s, box-shadow 0.5s;border:3px solid var(--danger);}
 @keyframes avatarFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-4px) scale(1.02);}}
 
 /* 角色说话动画 */
@@ -156,7 +259,7 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 
 .msg{max-width:85%;padding:0.75rem 1rem;border-radius:16px;font-size:0.9rem;line-height:1.7;position:relative;animation:msgIn 0.5s cubic-bezier(0.34,1.56,0.64,1);}
 .msg-bot{align-self:flex-start;background:var(--glass);border:1px solid var(--glass-border);border-bottom-left-radius:4px;}
-.msg-user{align-self:flex-end;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));border-bottom-right-radius:4px;box-shadow:0 4px 15px rgba(45,140,240,0.3);}
+.msg-user{align-self:flex-end;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));border-bottom-right-radius:4px;box-shadow:0 4px 15px rgba(79,195,247,0.3);}
 @keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(0.9);}to{opacity:1;transform:translateY(0) scale(1);}}
 
 .typing-indicator{display:flex;gap:0.3rem;padding:0.75rem 1rem;}
@@ -167,11 +270,11 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 
 .chat-input-area{margin-top:0.75rem;display:flex;gap:0.5rem;}
 .chat-input{flex:1;padding:0.75rem 1rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:999px;color:var(--text);font-size:0.9rem;outline:none;font-family:inherit;transition:all 0.3s;}
-.chat-input:focus{border-color:rgba(45,140,240,0.5);}
+.chat-input:focus{border-color:rgba(79,195,247,0.5);}
 .chat-input::placeholder{color:var(--text-dim);}
 .chat-input.shake{animation:inputShake 0.3s ease;}
 @keyframes inputShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-3px);}75%{transform:translateX(3px);}}
-.chat-send{width:44px;height:44px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 4px 15px rgba(45,140,240,0.3);}
+.chat-send{width:44px;height:44px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;box-shadow:0 4px 15px rgba(79,195,247,0.3);}
 .chat-send:hover{transform:scale(1.1);}
 
 .voice-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--glass-border);background:var(--glass);color:var(--text);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
@@ -216,7 +319,7 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 .review-stat .rs-num{font-size:1.8rem;font-weight:900;color:var(--sunset);}
 .review-stat .rs-label{font-size:0.8rem;color:var(--text-dim);margin-top:0.2rem;}
 
-.level-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:999px;background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(217,119,6,0.1));border:1px solid rgba(245,158,11,0.3);font-size:1rem;font-weight:700;color:var(--sunset-glow);margin:1rem 0;}
+.level-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.5rem;border-radius:999px;background:linear-gradient(135deg,rgba(255,112,67,0.15),rgba(217,119,6,0.1));border:1px solid rgba(255,112,67,0.3);font-size:1rem;font-weight:700;color:var(--sunset-glow);margin:1rem 0;}
 
 .saved-characters{display:flex;gap:0.75rem;flex-wrap:wrap;margin:1rem 0;}
 .saved-char{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:999px;font-size:0.85rem;}
@@ -226,7 +329,7 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 #cert-canvas{border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.4);max-width:100%;}
 
 /* ===== 成就弹窗 ===== */
-.achievement{position:fixed;top:15%;left:50%;transform:translateX(-50%) translateY(-30px);z-index:200;background:linear-gradient(135deg,rgba(245,158,11,0.95),rgba(217,119,6,0.95));border-radius:20px;padding:1.5rem 2rem;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);}
+.achievement{position:fixed;top:15%;left:50%;transform:translateX(-50%) translateY(-30px);z-index:200;background:linear-gradient(135deg,rgba(255,112,67,0.95),rgba(217,119,6,0.95));border-radius:20px;padding:1.5rem 2rem;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);opacity:0;pointer-events:none;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);}
 .achievement.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
 .achievement .ach-icon{font-size:3rem;margin-bottom:0.5rem;}
 .achievement h3{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:0.3rem;}
@@ -244,8 +347,29 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
   .review-stats{grid-template-columns:1fr 1fr;}
   .counter-row{gap:0.5rem;}
   .counter-item{min-width:80px;padding:0.75rem 0.5rem;}
+  .counter-num{font-size:1.6rem;}
   .island-map{height:350px;}
   .character-card{flex-direction:column;text-align:center;}
+  .hero-mascot{width:100px;height:120px;}
+  .mascot-body{width:66px;height:74px;}
+  .mascot-eye{top:22px;width:15px;height:17px;}
+  .mascot-eye.left{left:calc(50% - 18px);}
+  .mascot-eye.right{left:calc(50% + 3px);}
+  .mascot-eye::after{width:8px;height:8px;}
+  .mascot-mouth{top:42px;width:13px;height:7px;}
+  .mascot-blush{top:40px;}
+  .mascot-blush.left{left:calc(50% - 26px);}
+  .mascot-blush.right{left:calc(50% + 14px);}
+  .mascot-wave-crest{width:32px;height:16px;}
+  .mascot-wave-crest::before{width:20px;height:11px;left:6px;}
+  .mascot-hand{top:44px;width:18px;height:13px;}
+  .mascot-hand.left{left:-4px;}
+  .mascot-hand.right{right:-4px;}
+  .mascot-foot{width:20px;height:10px;}
+  .mascot-foot.left{left:calc(50% - 18px);}
+  .mascot-foot.right{left:calc(50% + 2px);}
+  .btn-start{padding:0.875rem 2rem;font-size:1rem;}
+  .coral-decor{height:45px;}
 }
 
 .text-center{text-align:center;}
@@ -310,7 +434,21 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 <div class="page active" id="page-home">
   <div class="page-content">
     <div class="hero-section">
-      <div class="hero-mascot">&#127754;</div>
+      <!-- CSS 波浪吉祥物 -->
+      <div class="hero-mascot">
+        <div class="mascot-wave-crest"></div>
+        <div class="mascot-body">
+          <div class="mascot-eye left"></div>
+          <div class="mascot-eye right"></div>
+          <div class="mascot-mouth"></div>
+          <div class="mascot-blush left"></div>
+          <div class="mascot-blush right"></div>
+        </div>
+        <div class="mascot-hand left"></div>
+        <div class="mascot-hand right"></div>
+        <div class="mascot-foot left"></div>
+        <div class="mascot-foot right"></div>
+      </div>
       <h1 class="hero-title">护苗行动 · 安全岛</h1>
       <p class="hero-sub">岛上有些小朋友正要做危险的事<br>用你的安全知识，说服他们远离危险！</p>
       <div class="counter-row">
@@ -343,18 +481,44 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
       </div>
     </div>
 
-    <div style="text-align:center;margin:1.5rem 0;">
-      <button class="btn btn-primary btn-lg" onclick="startAdventure()" id="start-btn">&#127754; 进入安全岛</button>
+    <div class="start-btn-wrap">
+      <button class="btn-start" onclick="startAdventure()" id="start-btn"><span class="btn-icon">&#127754;</span> 进入安全岛</button>
     </div>
 
-    <div class="glass" style="margin-top:1rem;">
-      <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;color:var(--text-dim);">&#128161; 怎么玩？</h3>
-      <p style="font-size:0.85rem;color:var(--text-dim);line-height:1.8;">
-        1. 进入<strong>安全岛</strong>，看到不同区域有小朋友<br>
-        2. 点击区域，看到小朋友正要做<strong>危险的事</strong><br>
-        3. 用<strong>说话</strong>或打字告诉小朋友为什么危险<br>
-        4. 说服成功，小朋友会感谢你，获得<strong>安全勋章</strong>！
-      </p>
+    <!-- "怎么玩"卡片式设计 -->
+    <div class="howto-card">
+      <div class="howto-title">&#128161; 怎么玩？</div>
+      <div class="howto-steps">
+        <div class="howto-step">
+          <div class="step-num">1</div>
+          <div class="step-text">进入<strong>安全岛</strong>，看到不同区域有小朋友</div>
+        </div>
+        <div class="howto-step">
+          <div class="step-num">2</div>
+          <div class="step-text">点击区域，看到小朋友正要做<strong>危险的事</strong></div>
+        </div>
+        <div class="howto-step">
+          <div class="step-num">3</div>
+          <div class="step-text">用<strong>说话</strong>或打字告诉小朋友为什么危险</div>
+        </div>
+        <div class="howto-step">
+          <div class="step-num">4</div>
+          <div class="step-text">说服成功，小朋友会感谢你，获得<strong>安全勋章</strong>！</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部珊瑚/海草装饰 -->
+    <div class="coral-decor">
+      <div class="seaweed seaweed-1"></div>
+      <div class="coral coral-1"></div>
+      <div class="seaweed seaweed-2"></div>
+      <div class="coral coral-2"></div>
+      <div class="seaweed seaweed-3"></div>
+      <div class="coral coral-3"></div>
+      <div class="seaweed seaweed-4"></div>
+      <div class="coral coral-4"></div>
+      <div class="coral coral-5"></div>
     </div>
   </div>
 </div>
@@ -505,7 +669,7 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 
     <div class="glass">
       <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.75rem;">&#128200; AI教练评语</h3>
-      <div id="ai-comment" style="font-size:0.9rem;color:var(--text-dim);line-height:1.8;padding:1rem;background:rgba(45,140,240,0.05);border-radius:12px;border:1px solid rgba(45,140,240,0.15);">
+      <div id="ai-comment" style="font-size:0.9rem;color:var(--text-dim);line-height:1.8;padding:1rem;background:rgba(79,195,247,0.05);border-radius:12px;border:1px solid rgba(79,195,247,0.15);">
         还没有演练记录，快去安全岛帮助小朋友吧！
       </div>
     </div>
@@ -543,7 +707,7 @@ class Bubble{constructor(){this.reset();}
   update(){this.y-=this.spd;this.wobble+=this.wobbleSpd;this.x+=Math.sin(this.wobble)*0.5;if(this.y<-10)this.reset();}
   draw(){oceanCtx.beginPath();oceanCtx.arc(this.x,this.y,this.size,0,Math.PI*2);oceanCtx.fillStyle=`rgba(100,200,255,${this.opacity})`;oceanCtx.fill();}
 }
-waves=[new Wave(oceanCanvas.height*0.55,30,300,0.003,'#0d2847',0.8),new Wave(oceanCanvas.height*0.6,25,250,0.004,'#1a4a7a',0.6),new Wave(oceanCanvas.height*0.65,20,200,0.005,'#1e6fc4',0.4),new Wave(oceanCanvas.height*0.7,15,150,0.006,'#2d8cf0',0.25)];
+waves=[new Wave(oceanCanvas.height*0.55,30,300,0.003,'#0d2847',0.8),new Wave(oceanCanvas.height*0.6,25,250,0.004,'#1a4a7a',0.6),new Wave(oceanCanvas.height*0.65,20,200,0.005,'#1e6fc4',0.4),new Wave(oceanCanvas.height*0.7,15,150,0.006,'#4FC3F7',0.25)];
 for(let i=0;i<25;i++)bubbles.push(new Bubble());
 let oceanTime=0;
 function animateOcean(){oceanTime+=1;oceanCtx.fillStyle='#0a1628';oceanCtx.fillRect(0,0,oceanCanvas.width,oceanCanvas.height);const g=oceanCtx.createLinearGradient(0,0,0,oceanCanvas.height);g.addColorStop(0,'#0a1628');g.addColorStop(0.5,'#0d2847');g.addColorStop(1,'#1a4a7a');oceanCtx.fillStyle=g;oceanCtx.fillRect(0,0,oceanCanvas.width,oceanCanvas.height);waves.forEach(w=>w.draw(oceanTime));bubbles.forEach(b=>{b.update();b.draw();});requestAnimationFrame(animateOcean);}
@@ -965,7 +1129,7 @@ class CelebrationEffect {
   init() {
     const cx = celebCanvasEl.width / 2;
     const cy = celebCanvasEl.height / 2;
-    const colors = ['#FFD700', '#10b981', '#2d8cf0', '#f59e0b', '#34d399', '#06b6d4', '#fbbf24'];
+    const colors = ['#FFD700', '#10b981', '#4FC3F7', '#FF7043', '#34d399', '#06b6d4', '#fbbf24'];
 
     for (let i = 0; i < 80; i++) {
       const angle = Math.random() * Math.PI * 2;
@@ -1289,7 +1453,7 @@ function enterScene(sceneId){
   const avatar = document.getElementById('char-avatar');
   avatar.classList.remove('speaking', 'happy');
   avatar.style.borderColor = 'var(--danger)';
-  avatar.style.boxShadow = '0 0 20px rgba(245,158,11,0.3)';
+  avatar.style.boxShadow = '0 0 20px rgba(255,112,67,0.3)';
   
   // 清空对话
   const chatBox=document.getElementById('chat-box');
@@ -1355,7 +1519,7 @@ function updateAvatarBorderColor(progress) {
   } else if(progress <= 70) {
     // 黄色 - 犹豫
     avatar.style.borderColor = 'var(--sunset)';
-    avatar.style.boxShadow = '0 0 20px rgba(245,158,11,0.3)';
+    avatar.style.boxShadow = '0 0 20px rgba(255,112,67,0.3)';
   } else {
     // 绿色 - 被说服
     avatar.style.borderColor = 'var(--success)';
@@ -1637,13 +1801,13 @@ function generateCert(){
   grad.addColorStop(0,'#0d2847');grad.addColorStop(0.5,'#1a4a7a');grad.addColorStop(1,'#0d2847');
   ctx.fillStyle=grad;ctx.fillRect(0,0,640,420);
   
-  ctx.strokeStyle='rgba(45,140,240,0.5)';ctx.lineWidth=3;ctx.strokeRect(20,20,600,380);
-  ctx.strokeStyle='rgba(45,140,240,0.2)';ctx.lineWidth=1;ctx.strokeRect(30,30,580,360);
+  ctx.strokeStyle='rgba(79,195,247,0.5)';ctx.lineWidth=3;ctx.strokeRect(20,20,600,380);
+  ctx.strokeStyle='rgba(79,195,247,0.2)';ctx.lineWidth=1;ctx.strokeRect(30,30,580,360);
   
   ctx.fillStyle='#fff';ctx.font='bold 28px "Noto Sans SC",sans-serif';ctx.textAlign='center';
   ctx.fillText('防溺水安全教育证书',320,75);
   
-  ctx.beginPath();ctx.moveTo(180,90);ctx.lineTo(460,90);ctx.strokeStyle='rgba(45,140,240,0.5)';ctx.stroke();
+  ctx.beginPath();ctx.moveTo(180,90);ctx.lineTo(460,90);ctx.strokeStyle='rgba(79,195,247,0.5)';ctx.stroke();
   
   ctx.fillStyle='rgba(255,255,255,0.9)';ctx.font='18px "Noto Sans SC",sans-serif';ctx.textAlign='center';
   ctx.fillText(`恭喜 ${name} 完成安全岛救援任务！`,320,125);
@@ -1652,13 +1816,13 @@ function generateCert(){
   ctx.fillText(`拯救小朋友：${GameState.savedCharacters.length}/5`,320,190);
   ctx.fillText(`救援场景：${GameState.scenesCompleted} 个`,320,220);
   
-  ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='14px "Noto Sans SC",sans-serif';ctx.textAlign='right';
+  ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='14px "Noto Sans SC",sans-serif';ctx.textAlign:'right';
   ctx.fillText(`救援者：${name}`,560,360);
   ctx.fillText(new Date().toLocaleDateString('zh-CN'),560,385);
   
   ctx.beginPath();ctx.arc(520,340,30,0,Math.PI*2);
-  ctx.strokeStyle='rgba(245,158,11,0.5)';ctx.lineWidth=2;ctx.stroke();
-  ctx.fillStyle='rgba(245,158,11,0.3)';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
+  ctx.strokeStyle='rgba(255,112,67,0.5)';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='rgba(255,112,67,0.3)';ctx.font='bold 11px sans-serif';ctx.textAlign='center';
   ctx.fillText('AI安全教练',520,345);
   
   document.getElementById('cert-area').style.display='block';
