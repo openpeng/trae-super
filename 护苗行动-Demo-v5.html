@@ -387,6 +387,16 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 .character-info .trait-tag{font-size:0.75rem;padding:0.15rem 0.5rem;border-radius:999px;background:rgba(239,68,68,0.15);color:var(--danger-glow);border:1px solid rgba(239,68,68,0.3);}
 .character-info .danger-action{font-size:0.9rem;color:var(--danger-glow);margin-top:0.5rem;font-weight:600;}
 
+/* 情绪状态条 */
+.emotion-state-bar{padding:0.5rem 0.75rem;border-radius:8px;margin-top:0.5rem;transition:all 0.5s ease;}
+.emotion-label{font-size:0.8rem;font-weight:700;margin-bottom:0.2rem;}
+.emotion-desc{font-size:0.7rem;opacity:0.8;}
+
+/* AI 情绪标签 */
+.ai-mood-tag{font-size:0.7rem;padding:0.2rem 0.5rem;border-radius:999px;background:rgba(239,68,68,0.2);color:#EF4444;display:inline-block;margin-left:0.5rem;transition:all 0.3s;}
+.ai-mood-tag.hesitant{background:rgba(245,158,11,0.2);color:#F59E0B;}
+.ai-mood-tag.convinced{background:rgba(16,185,129,0.2);color:#10B981;}
+
 .danger-visual{text-align:center;padding:2rem 0;font-size:4rem;animation:dangerWiggle 2s ease-in-out infinite;}
 @keyframes dangerWiggle{0%,100%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}}
 
@@ -837,7 +847,11 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
           <span class="trait-tag">调皮</span>
           <span class="trait-tag">爱逞强</span>
         </div>
-        <div class="danger-action" id="char-danger">正在河边准备下水...</div>
+        <div class="danger-action" id="char-danger">正在河边准备下水...<div class="ai-mood-tag" id="ai-mood">很固执</div></div>
+        <div class="emotion-state-bar" id="emotion-state-bar">
+          <div class="emotion-label" id="emotion-label">抗拒</div>
+          <div class="emotion-desc" id="emotion-desc">角色很固执，不容易被说服</div>
+        </div>
       </div>
     </div>
 
@@ -1509,6 +1523,95 @@ function getApiModel(){
   return userModel || DEFAULT_MODEL;
 }
 
+// ==================== 动态温度参数 ====================
+function getDynamicTemperature(progress){
+  // 根据说服进度动态调整温度
+  // 初期更固执（高温度=更随机/更抗拒），后期更理性（低温度=更稳定/更易被说服）
+  if(progress < 30) return 0.95;      // 抗拒期：高随机，角色更"不听话"
+  if(progress < 60) return 0.75;      // 动摇期：中等随机
+  if(progress < 85) return 0.55;      // 犹豫期：趋于理性
+  return 0.35;                         // 被说服期：低随机，角色开始认同
+}
+
+// ==================== 角色情绪状态机 ====================
+const EMOTION_STATES = {
+  DEFIANT: {
+    name: '抗拒',
+    color: '#EF4444',
+    bgColor: 'rgba(239,68,68,0.15)',
+    progressRange: [0, 30],
+    description: '角色很固执，不容易被说服'
+  },
+  HESITANT: {
+    name: '犹豫',
+    color: '#F59E0B',
+    bgColor: 'rgba(245,158,11,0.15)',
+    progressRange: [30, 60],
+    description: '角色开始动摇，但还在纠结'
+  },
+  WAVERING: {
+    name: '动摇',
+    color: '#3B82F6',
+    bgColor: 'rgba(59,130,246,0.15)',
+    progressRange: [60, 85],
+    description: '角色快要被说服了'
+  },
+  CONVINCED: {
+    name: '认同',
+    color: '#10B981',
+    bgColor: 'rgba(16,185,129,0.15)',
+    progressRange: [85, 100],
+    description: '角色被说服了'
+  }
+};
+
+function getEmotionState(progress) {
+  if (progress < 30) return EMOTION_STATES.DEFIANT;
+  if (progress < 60) return EMOTION_STATES.HESITANT;
+  if (progress < 85) return EMOTION_STATES.WAVERING;
+  return EMOTION_STATES.CONVINCED;
+}
+
+// ==================== 进度智能评估系统 ====================
+function evaluateProgress(rawProgress, userText) {
+  const currentProgress = GameState.persuadeProgress;
+  const historyLength = GameState.chatHistory.length;
+
+  // 规则1：进度不能倒退（除非特殊情况）
+  let progress = Math.max(rawProgress, currentProgress);
+
+  // 规则2：单次进度增长不能超过30（防止跳跃）
+  const maxIncrement = 30;
+  if (progress - currentProgress > maxIncrement) {
+    progress = currentProgress + maxIncrement;
+  }
+
+  // 规则3：根据用户输入质量调整（关键词密度校验）
+  const keywords = {
+    river: ['暗流', '深浅', '危险', '大人', '游泳圈', '不会游泳', '淹死', '溺水', '安全', '水草', '抽筋'],
+    beach: ['大浪', '卷走', '危险', '岸上', '救生员', '暗流', '安全', '离岸流', '潮汐'],
+    pool: ['能力', '深水', '危险', '不会', '救生员', '安全', '范围', '抽筋', '体力'],
+    reservoir: ['深', '危险', '淹死', '溺水', '安全', '不能', '禁止', '冰冷', '水草'],
+    construction: ['钉子', '电线', '危险', '细菌', '工地', '安全', '不能', '深坑', '泥泞']
+  };
+
+  const sceneKeywords = keywords[GameState.currentScene] || [];
+  const matchedKeywords = sceneKeywords.filter(k => userText.includes(k));
+  const keywordDensity = matchedKeywords.length / userText.length;
+
+  // 如果关键词密度低且AI给的进度很高，进行修正
+  if (keywordDensity < 0.05 && progress > currentProgress + 20) {
+    progress = currentProgress + 15; // 限制增长
+  }
+
+  // 规则4：多轮对话加成（持续有效对话有额外奖励）
+  if (historyLength >= 4 && matchedKeywords.length >= 2) {
+    progress = Math.min(progress + 5, 100);
+  }
+
+  return Math.min(progress, 100);
+}
+
 // ==================== 角色数据 ====================
 const CHARACTERS={
   river:{name:'小刚',avatar:'avatar-river',traits:['调皮','爱逞强'],danger:'正在河边准备下水游泳...',scene:'河边',bg:'river',
@@ -1750,7 +1853,9 @@ function enterScene(sceneId){
   document.getElementById('danger-visual').innerHTML=dangerEmojis[sceneId]||'&#9888;';
   
   // 重置进度条
-  updatePersuadeProgress(0);
+  updatePersuadeProgress(0, '');
+  updateAiMoodTag(0);
+  updateEmotionStateUI(0);
   
   // 重置角色头像状态
   const avatar = document.getElementById('char-avatar');
@@ -1784,12 +1889,41 @@ function exitScene() {
   goPage('island');
 }
 
-function updatePersuadeProgress(progress){
+function updateAiMoodTag(progress){
+  const tag=document.getElementById('ai-mood');
+  if(!tag) return;
+  if(progress<30){tag.textContent='很固执';tag.className='ai-mood-tag';}
+  else if(progress<60){tag.textContent='有点动摇';tag.className='ai-mood-tag hesitant';}
+  else if(progress<85){tag.textContent='快被说服了';tag.className='ai-mood-tag hesitant';}
+  else{tag.textContent='被说服了';tag.className='ai-mood-tag convinced';}
+}
+
+function updateEmotionStateUI(progress){
+  const state = getEmotionState(progress);
+  const bar = document.getElementById('emotion-state-bar');
+  const label = document.getElementById('emotion-label');
+  const desc = document.getElementById('emotion-desc');
+
+  if(bar){
+    bar.style.background = state.bgColor;
+    bar.style.borderLeft = `3px solid ${state.color}`;
+  }
+  if(label){
+    label.textContent = state.name;
+    label.style.color = state.color;
+  }
+  if(desc) desc.textContent = state.description;
+}
+
+function updatePersuadeProgress(rawProgress, userText){
+  // 使用智能评估系统
+  const progress = evaluateProgress(rawProgress, userText || '');
+  GameState.persuadeProgress = progress;
+
   const prevProgress = GameState.persuadeProgress;
-  GameState.persuadeProgress=progress;
   const fill=document.getElementById('persuade-fill');
   fill.style.width=progress+'%';
-  
+
   // 进度文字颜色随进度变化
   const percentEl=document.getElementById('persuade-percent');
   percentEl.textContent=progress+'%';
@@ -1811,6 +1945,12 @@ function updatePersuadeProgress(progress){
 
   // 角色头像边框颜色随进度变化
   updateAvatarBorderColor(progress);
+
+  // 更新 AI 情绪标签
+  updateAiMoodTag(progress);
+
+  // 更新情绪状态UI
+  updateEmotionStateUI(progress);
 }
 
 function updateAvatarBorderColor(progress) {
@@ -1910,7 +2050,7 @@ async function sendChat(){
       const result=await callAIForPersuade(text);
       removeTyping();
       addBotMsg(result.reply);
-      updatePersuadeProgress(result.progress);
+      updatePersuadeProgress(result.progress, text);
       speak(result.reply);
       
       if(result.persuaded||result.progress>=100){
@@ -1931,16 +2071,34 @@ async function callAIForPersuade(userText){
   const char=GameState.currentCharacter;
   const apiKey=getApiKey();
   const model=getApiModel();
-  
+  const temperature=getDynamicTemperature(GameState.persuadeProgress);
+
   // 检查是否使用了默认配置
   if(apiKey==='YOUR_API_KEY_HERE' || model==='YOUR_ENDPOINT_ID_HERE'){
     console.warn('使用默认API配置，请配置自己的API Key');
   }
-  
+
+  // 构建消息数组
+  const messages=[
+    {role:'system',content:char.systemPrompt}
+  ];
+
+  // 拼接最近6轮对话历史（保留上下文但控制token消耗）
+  const recentHistory=GameState.chatHistory.slice(-6);
+  recentHistory.forEach(msg=>{
+    messages.push({
+      role:msg.role==='bot'?'assistant':'user',
+      content:msg.content
+    });
+  });
+
+  // 添加当前用户输入
+  messages.push({role:'user',content:userText});
+
   const response=await fetch(DOUBAO_API_URL,{
     method:'POST',
     headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-    body:JSON.stringify({model:model,messages:[{role:'system',content:char.systemPrompt},{role:'user',content:userText}],temperature:0.8,max_tokens:300})
+    body:JSON.stringify({model:model,messages:messages,temperature:temperature,max_tokens:300})
   });
   if(!response.ok)throw new Error('API请求失败');
   const data=await response.json();
@@ -1949,14 +2107,18 @@ async function callAIForPersuade(userText){
   // 提取JSON
   const jsonMatch=content.match(/\{[\s\S]*\}/);
   if(jsonMatch){
-    return JSON.parse(jsonMatch[0]);
+    const result = JSON.parse(jsonMatch[0]);
+    // 使用智能评估系统处理进度
+    result.progress = evaluateProgress(result.progress, userText);
+    return result;
   }
   // 如果无法解析JSON，返回默认响应
-  return {persuaded:false,reply:'嗯...让我想想...',progress:GameState.persuadeProgress+20};
+  return {persuaded:false,reply:'嗯...让我想想...',progress:evaluateProgress(GameState.persuadeProgress+20, userText)};
 }
 
 function handleOfflineResponse(userText){
   const char=GameState.currentCharacter;
+  const progress=GameState.persuadeProgress;
   const keywords={
     river:['暗流','深浅','危险','大人','游泳圈','不会游泳','淹死','溺水','安全'],
     beach:['大浪','卷走','危险','岸上','救生员','暗流','安全'],
@@ -1964,35 +2126,45 @@ function handleOfflineResponse(userText){
     reservoir:['深','危险','淹死','溺水','安全','不能','禁止'],
     construction:['钉子','电线','危险','细菌','工地','安全','不能']
   };
-  
+
   const sceneKeywords=keywords[GameState.currentScene]||[];
   const hasKeyword=sceneKeywords.some(k=>userText.includes(k));
-  
-  let progress=GameState.persuadeProgress;
+
+  // 根据历史长度和关键词密度计算进度增量
+  const historyLength=GameState.chatHistory.length;
+  let increment=0;
+  if(hasKeyword){
+    increment=15+Math.min(historyLength*2,10); // 多轮对话有加成
+  }else{
+    increment=5;
+  }
+
+  let rawProgress=progress+increment;
+  // 使用智能评估系统处理进度
+  let newProgress=evaluateProgress(rawProgress, userText);
   let reply='';
   let persuaded=false;
-  
+
   if(hasKeyword){
-    progress+=40;
-    if(progress>=100){
-      progress=100;
+    if(newProgress>=100){
+      newProgress=100;
       persuaded=true;
       reply=`哇...你说得好像有道理...我有点害怕了。好吧，我不去了，谢谢你提醒我！`;
     }else{
       reply=`嗯...你说的好像有点道理...但是...`;
     }
   }else{
-    progress+=20;
+    if(newProgress>=100) newProgress=100;
     reply=`可是...我觉得没事啊...`;
   }
-  
+
   addBotMsg(reply);
-  updatePersuadeProgress(progress);
+  updatePersuadeProgress(newProgress, userText);
   speak(reply);
-  
-  if(persuaded||progress>=100){
+
+  if(persuaded||newProgress>=100){
     setTimeout(()=>showSuccess(),1500);
-  }else if(GameState.chatHistory.filter(h=>h.role==='user').length>=3){
+  }else if(GameState.chatHistory.filter(h=>h.role==='user').length>=6){
     setTimeout(()=>showFail(),1500);
   }
 }
