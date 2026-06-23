@@ -388,14 +388,30 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 .character-info .danger-action{font-size:0.9rem;color:var(--danger-glow);margin-top:0.5rem;font-weight:600;}
 
 /* 情绪状态条 */
-.emotion-state-bar{padding:0.5rem 0.75rem;border-radius:8px;margin-top:0.5rem;transition:all 0.5s ease;}
-.emotion-label{font-size:0.8rem;font-weight:700;margin-bottom:0.2rem;}
-.emotion-desc{font-size:0.7rem;opacity:0.8;}
+.emotion-state-bar{padding:0.75rem 1rem;border-radius:12px;margin-top:0.75rem;transition:all 0.5s ease;display:flex;align-items:center;gap:0.75rem;}
+.emotion-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;background:rgba(255,255,255,0.1);}
+.emotion-info{flex:1;}
+.emotion-label{font-size:0.9rem;font-weight:700;margin-bottom:0.25rem;}
+.emotion-desc{font-size:0.75rem;opacity:0.85;}
+.emotion-progress{height:4px;border-radius:2px;background:rgba(255,255,255,0.1);margin-top:0.5rem;overflow:hidden;}
+.emotion-progress-bar{height:100%;border-radius:2px;transition:width 0.5s ease,background 0.5s ease;}
 
 /* AI 情绪标签 */
 .ai-mood-tag{font-size:0.7rem;padding:0.2rem 0.5rem;border-radius:999px;background:rgba(239,68,68,0.2);color:#EF4444;display:inline-block;margin-left:0.5rem;transition:all 0.3s;}
 .ai-mood-tag.hesitant{background:rgba(245,158,11,0.2);color:#F59E0B;}
 .ai-mood-tag.convinced{background:rgba(16,185,129,0.2);color:#10B981;}
+
+/* AI 控制面板 */
+.ai-control-panel{background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;margin-bottom:0.75rem;overflow:hidden;}
+.ai-control-toggle{display:flex;align-items:center;justify-content:space-between;padding:0.6rem 0.75rem;cursor:pointer;font-size:0.8rem;color:var(--text-dim);transition:all 0.3s;}
+.ai-control-toggle:hover{background:rgba(255,255,255,0.03);}
+.ai-control-toggle .toggle-icon{transition:transform 0.3s;font-size:0.7rem;}
+.ai-control-toggle.open .toggle-icon{transform:rotate(180deg);}
+.ai-control-content{padding:0.5rem 0.75rem;border-top:1px solid var(--glass-border);animation:slideDown 0.3s ease;}
+.control-item{display:flex;justify-content:space-between;align-items:center;padding:0.3rem 0;font-size:0.75rem;border-bottom:1px solid rgba(255,255,255,0.05);}
+.control-item:last-child{border-bottom:none;}
+.control-label{color:var(--text-dim);}
+.control-value{color:var(--text-light);font-weight:600;font-family:monospace;}
 
 .danger-visual{text-align:center;padding:2rem 0;font-size:4rem;animation:dangerWiggle 2s ease-in-out infinite;}
 @keyframes dangerWiggle{0%,100%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}}
@@ -411,6 +427,22 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 .msg{max-width:100%;padding:0.75rem 1rem;border-radius:16px;font-size:0.9rem;line-height:1.7;position:relative;animation:msgIn 0.5s cubic-bezier(0.34,1.56,0.64,1);}
 .msg-bot{align-self:flex-start;background:var(--glass);border:1px solid var(--glass-border);border-bottom-left-radius:4px;}
 .msg-user{align-self:flex-end;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));border-bottom-right-radius:4px;box-shadow:0 4px 15px rgba(79,195,247,0.3);}
+.msg[data-round]::before{
+  content: attr(data-round);
+  position:absolute;
+  top:-8px;
+  right:-8px;
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:var(--wave-2);
+  color:#fff;
+  font-size:0.6rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
 @keyframes msgIn{from{opacity:0;transform:translateY(10px) scale(0.9);}to{opacity:1;transform:translateY(0) scale(1);}}
 
 /* 消息行布局 */
@@ -849,14 +881,46 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
         </div>
         <div class="danger-action" id="char-danger">正在河边准备下水...<div class="ai-mood-tag" id="ai-mood">很固执</div></div>
         <div class="emotion-state-bar" id="emotion-state-bar">
-          <div class="emotion-label" id="emotion-label">抗拒</div>
-          <div class="emotion-desc" id="emotion-desc">角色很固执，不容易被说服</div>
+          <div class="emotion-icon" id="emotion-icon">😤</div>
+          <div class="emotion-info">
+            <div class="emotion-label" id="emotion-label">抗拒</div>
+            <div class="emotion-desc" id="emotion-desc">角色很固执，不容易被说服</div>
+            <div class="emotion-progress">
+              <div class="emotion-progress-bar" id="emotion-progress-bar" style="width:0%"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- 危险视觉 -->
     <div class="danger-visual" id="danger-visual">&#9888;</div>
+
+    <!-- AI 控制面板 -->
+    <div class="ai-control-panel" id="ai-control-panel">
+      <div class="ai-control-toggle" onclick="toggleAiControlPanel()">
+        <span>🧠 AI 控制状态</span>
+        <span class="toggle-icon" id="ai-control-toggle-icon">▼</span>
+      </div>
+      <div class="ai-control-content" id="ai-control-content" style="display:none;">
+        <div class="control-item">
+          <span class="control-label">对话轮数</span>
+          <span class="control-value" id="chat-rounds">0</span>
+        </div>
+        <div class="control-item">
+          <span class="control-label">温度参数</span>
+          <span class="control-value" id="temperature-value">0.95</span>
+        </div>
+        <div class="control-item">
+          <span class="control-label">AI 情绪</span>
+          <span class="control-value" id="ai-emotion-display">抗拒</span>
+        </div>
+        <div class="control-item">
+          <span class="control-label">上下文记忆</span>
+          <span class="control-value" id="context-memory">6轮</span>
+        </div>
+      </div>
+    </div>
 
     <!-- 说服进度 -->
     <div class="persuade-bar" id="persuade-bar">
@@ -1756,6 +1820,32 @@ function toggleApiConfig(){
   }
 }
 
+function toggleAiControlPanel(){
+  const content = document.getElementById('ai-control-content');
+  const toggle = document.querySelector('.ai-control-toggle');
+  if(content.style.display === 'none'){
+    content.style.display = 'block';
+    toggle.classList.add('open');
+  }else{
+    content.style.display = 'none';
+    toggle.classList.remove('open');
+  }
+}
+
+function updateAiControlPanel(){
+  const roundsEl = document.getElementById('chat-rounds');
+  const tempEl = document.getElementById('temperature-value');
+  const emotionEl = document.getElementById('ai-emotion-display');
+
+  if(roundsEl) roundsEl.textContent = Math.floor(GameState.chatHistory.length / 2);
+  if(tempEl) tempEl.textContent = getDynamicTemperature(GameState.persuadeProgress).toFixed(2);
+  if(emotionEl){
+    const state = getEmotionState(GameState.persuadeProgress);
+    emotionEl.textContent = state.name;
+    emotionEl.style.color = state.color;
+  }
+}
+
 // ==================== 数字计数器 ====================
 let countersStarted=false;
 function startCounters(){if(countersStarted)return;countersStarted=true;
@@ -1900,19 +1990,34 @@ function updateAiMoodTag(progress){
 
 function updateEmotionStateUI(progress){
   const state = getEmotionState(progress);
+  const icons = {
+    DEFIANT: '😤',
+    HESITANT: '😰',
+    WAVERING: '😳',
+    CONVINCED: '😊'
+  };
+  const icon = icons[Object.keys(EMOTION_STATES).find(key => EMOTION_STATES[key] === state)] || '😐';
+
   const bar = document.getElementById('emotion-state-bar');
+  const iconEl = document.getElementById('emotion-icon');
   const label = document.getElementById('emotion-label');
   const desc = document.getElementById('emotion-desc');
+  const progressBar = document.getElementById('emotion-progress-bar');
 
   if(bar){
     bar.style.background = state.bgColor;
-    bar.style.borderLeft = `3px solid ${state.color}`;
+    bar.style.borderLeft = `4px solid ${state.color}`;
   }
+  if(iconEl) iconEl.textContent = icon;
   if(label){
     label.textContent = state.name;
     label.style.color = state.color;
   }
   if(desc) desc.textContent = state.description;
+  if(progressBar){
+    progressBar.style.width = progress + '%';
+    progressBar.style.background = state.color;
+  }
 }
 
 function updatePersuadeProgress(rawProgress, userText){
@@ -1926,7 +2031,7 @@ function updatePersuadeProgress(rawProgress, userText){
 
   // 进度文字颜色随进度变化
   const percentEl=document.getElementById('persuade-percent');
-  percentEl.textContent=progress+'%';
+  percentEl.textContent=Math.round(progress)+'%';
   if(progress <= 30){
     percentEl.style.color='var(--danger-glow)';
   } else if(progress <= 70){
@@ -1951,6 +2056,9 @@ function updatePersuadeProgress(rawProgress, userText){
 
   // 更新情绪状态UI
   updateEmotionStateUI(progress);
+
+  // 更新AI控制面板
+  updateAiControlPanel();
 }
 
 function updateAvatarBorderColor(progress) {
@@ -1989,7 +2097,8 @@ function addBotMsg(text){
   // 获取当前角色头像HTML
   const char = GameState.currentCharacter;
   const avatarHtml = char ? getAvatarHtml(GameState.currentScene, 'msg-avatar') : '<div class="msg-avatar"></div>';
-  row.innerHTML = avatarHtml + '<div class="msg msg-bot">' + text + '</div>';
+  const round = Math.floor(GameState.chatHistory.length / 2) + 1;
+  row.innerHTML = avatarHtml + '<div class="msg msg-bot" data-round="' + round + '">' + text + '</div>';
   box.appendChild(row);
   box.scrollTop=box.scrollHeight;
   GameState.chatHistory.push({role:'bot',content:text});
@@ -2004,7 +2113,8 @@ function addUserMsg(text){
   const box=document.getElementById('chat-box');
   const row=document.createElement('div');
   row.className='msg-row user';
-  row.innerHTML = '<div class="msg msg-user">' + text + '</div><div class="msg-avatar user-avatar">我</div>';
+  const round = Math.floor(GameState.chatHistory.length / 2) + 1;
+  row.innerHTML = '<div class="msg msg-user" data-round="' + round + '">' + text + '</div><div class="msg-avatar user-avatar">我</div>';
   box.appendChild(row);
   box.scrollTop=box.scrollHeight;
   GameState.chatHistory.push({role:'user',content:text});
@@ -2042,9 +2152,12 @@ async function sendChat(){
   if(!text)return;
   addUserMsg(text);
   input.value='';
-  
+
+  // 更新AI控制面板（用户发送消息后）
+  updateAiControlPanel();
+
   showTyping();
-  
+
   if(isOnline){
     try{
       const result=await callAIForPersuade(text);
@@ -2052,7 +2165,7 @@ async function sendChat(){
       addBotMsg(result.reply);
       updatePersuadeProgress(result.progress, text);
       speak(result.reply);
-      
+
       if(result.persuaded||result.progress>=100){
         setTimeout(()=>showSuccess(),1500);
       }else if(GameState.chatHistory.filter(h=>h.role==='user').length>=3){
@@ -2321,7 +2434,7 @@ function generateCert(){
   ctx.fillText(`拯救小朋友：${GameState.savedCharacters.length}/5`,320,190);
   ctx.fillText(`救援场景：${GameState.scenesCompleted} 个`,320,220);
   
-  ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='14px "Noto Sans SC",sans-serif';ctx.textAlign:'right';
+  ctx.fillStyle='rgba(255,255,255,0.7)';ctx.font='14px "Noto Sans SC",sans-serif';ctx.textAlign='right';
   ctx.fillText(`救援者：${name}`,560,360);
   ctx.fillText(new Date().toLocaleDateString('zh-CN'),560,385);
   
