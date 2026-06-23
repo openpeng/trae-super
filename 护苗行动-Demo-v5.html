@@ -321,6 +321,54 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 .character-avatar.happy{animation:avatarHappy 0.6s ease-in-out 3 !important;}
 @keyframes avatarHappy{0%,100%{transform:translateY(0) rotate(0);}25%{transform:translateY(-15px) rotate(-5deg);}75%{transform:translateY(-15px) rotate(5deg);}}
 
+/* ========== CSS 卡通头像 ========== */
+.avatar-face{width:56px;height:56px;border-radius:50%;position:relative;overflow:hidden;background:#F5D0A9;}
+.avatar-hair{position:absolute;top:0;left:0;right:0;height:18px;}
+.avatar-eyes{position:absolute;top:22px;left:50%;transform:translateX(-50%);display:flex;gap:10px;}
+.eye{width:7px;height:7px;background:#1F2937;border-radius:50%;position:relative;}
+.avatar-mouth{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);}
+.avatar-body{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40px;height:18px;border-radius:10px 10px 0 0;}
+
+/* 小刚 river - 调皮男孩 */
+.avatar-river .avatar-hair{background:#8B4513;border-radius:50% 50% 0 0;}
+.avatar-river .avatar-hair::before{content:'';position:absolute;top:-4px;left:8px;width:12px;height:8px;background:#8B4513;border-radius:50%;transform:rotate(-20deg);}
+.avatar-river .avatar-hair::after{content:'';position:absolute;top:-3px;right:10px;width:10px;height:7px;background:#8B4513;border-radius:50%;transform:rotate(15deg);}
+.avatar-river .eye::before{content:'';position:absolute;top:-3px;left:0;width:7px;height:2px;background:#1F2937;border-radius:1px;transform:rotate(10deg);}
+.avatar-river .avatar-mouth{width:12px;height:6px;border-bottom:2px solid #1F2937;border-radius:0 0 12px 12px;transform:translateX(-50%) rotate(-5deg);}
+.avatar-river .avatar-body{background:#EF4444;}
+
+/* 小红 beach - 好奇女孩 */
+.avatar-beach .avatar-hair{background:#1F2937;border-radius:50% 50% 0 0;}
+.avatar-beach .avatar-hair::before{content:'';position:absolute;top:6px;left:-10px;width:14px;height:14px;background:#1F2937;border-radius:50%;}
+.avatar-beach .avatar-hair::after{content:'';position:absolute;top:6px;right:-10px;width:14px;height:14px;background:#1F2937;border-radius:50%;}
+.avatar-beach .eye{width:8px;height:8px;}
+.avatar-beach .avatar-mouth{width:8px;height:8px;border:2px solid #1F2937;border-radius:50%;background:transparent;}
+.avatar-beach .avatar-body{background:#EC4899;}
+
+/* 小明 pool - 爱面子男孩 */
+.avatar-pool .avatar-hair{background:#374151;border-radius:30% 30% 0 0;height:16px;}
+.avatar-pool .avatar-hair::before{content:'';position:absolute;top:2px;left:2px;width:52px;height:8px;background:#374151;border-radius:4px 4px 0 0;}
+.avatar-pool .eye::before{content:'';position:absolute;top:-3px;left:-1px;width:9px;height:2px;background:#1F2937;border-radius:1px;transform:rotate(15deg);}
+.avatar-pool .eye:last-child::before{transform:rotate(-15deg);left:auto;right:-1px;}
+.avatar-pool .avatar-mouth{width:10px;height:2px;background:#1F2937;border-radius:1px;}
+.avatar-pool .avatar-body{background:#3B82F6;}
+
+/* 小芳 reservoir - 天真女孩 */
+.avatar-reservoir .avatar-hair{background:#A0522D;border-radius:50% 50% 0 0;}
+.avatar-reservoir .avatar-hair::before{content:'';position:absolute;top:8px;left:-4px;width:10px;height:28px;background:#A0522D;border-radius:0 0 5px 5px;}
+.avatar-reservoir .avatar-hair::after{content:'';position:absolute;top:8px;right:-4px;width:10px;height:28px;background:#A0522D;border-radius:0 0 5px 5px;}
+.avatar-reservoir .eye{height:4px;border-radius:0 0 4px 4px;background:transparent;border-bottom:3px solid #1F2937;}
+.avatar-reservoir .avatar-mouth{width:12px;height:6px;border-bottom:2px solid #1F2937;border-radius:0 0 12px 12px;}
+.avatar-reservoir .avatar-body{background:#8B5CF6;}
+
+/* 小强 construction - 贪玩小男孩 */
+.avatar-construction .avatar-hair{background:#1F2937;border-radius:50% 50% 0 0;}
+.avatar-construction .avatar-hair::before{content:'';position:absolute;top:2px;left:6px;width:6px;height:6px;background:#1F2937;border-radius:50%;}
+.avatar-construction .avatar-hair::after{content:'';position:absolute;top:3px;right:8px;width:5px;height:5px;background:#1F2937;border-radius:50%;}
+.avatar-construction .eye{height:3px;border-radius:0 0 4px 4px;background:transparent;border-bottom:3px solid #1F2937;}
+.avatar-construction .avatar-mouth{width:14px;height:8px;background:#1F2937;border-radius:0 0 14px 14px;}
+.avatar-construction .avatar-body{background:#F97316;}
+
 .character-info{flex:1;}
 .character-info h3{font-size:1.1rem;font-weight:700;}
 .character-info .character-trait{display:flex;gap:0.5rem;margin-top:0.3rem;}
@@ -404,7 +452,7 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 
 .saved-characters{display:flex;gap:0.75rem;flex-wrap:wrap;margin:1rem 0;}
 .saved-char{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:999px;font-size:0.85rem;}
-.saved-char .char-emoji{font-size:1.2rem;}
+.saved-char .char-emoji{display:inline-flex;align-items:center;justify-content:center;}
 
 .pledge-canvas-wrap{text-align:center;margin:1.5rem 0;}
 #cert-canvas{border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.4);max-width:100%;}
@@ -726,7 +774,7 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 
     <!-- 角色卡片 -->
     <div class="character-card" id="character-card">
-      <div class="character-avatar" id="char-avatar">&#128102;</div>
+      <div class="character-avatar" id="char-avatar"><div class="avatar-face avatar-river"><div class="avatar-hair"></div><div class="avatar-eyes"><div class="eye left"></div><div class="eye right"></div></div><div class="avatar-mouth"></div><div class="avatar-body"></div></div></div>
       <div class="character-info">
         <h3 id="char-name">小刚</h3>
         <div class="character-trait" id="char-traits">
@@ -1366,7 +1414,7 @@ const DOUBAO_MODEL='YOUR_ENDPOINT_ID_HERE';
 
 // ==================== 角色数据 ====================
 const CHARACTERS={
-  river:{name:'小刚',avatar:'&#128102;',traits:['调皮','爱逞强'],danger:'正在河边准备下水游泳...',scene:'河边',bg:'river',
+  river:{name:'小刚',avatar:'avatar-river',traits:['调皮','爱逞强'],danger:'正在河边准备下水游泳...',scene:'河边',bg:'river',
     systemPrompt:`你叫小刚，是一个调皮、爱逞强的小男孩。你现在在村边的小河边，正准备脱鞋下水游泳。
 
 你的性格特点：
@@ -1382,7 +1430,7 @@ const CHARACTERS={
 
 每次回复保持角色性格，用口语化、调皮但真实的语气。回复格式JSON：{"persuaded":true/false,"reply":"回应","progress":0-100}`},
   
-  beach:{name:'小红',avatar:'&#128103;',traits:['好奇','容易兴奋'],danger:'正冲向大浪里...',scene:'海滩',bg:'beach',
+  beach:{name:'小红',avatar:'avatar-beach',traits:['好奇','容易兴奋'],danger:'正冲向大浪里...',scene:'海滩',bg:'beach',
     systemPrompt:`你叫小红，是一个好奇、容易兴奋的小女孩。你现在在海滩上，看到大浪来了，正兴奋地要冲进去玩。
 
 你的性格特点：
@@ -1398,7 +1446,7 @@ const CHARACTERS={
 
 每次回复保持角色性格，用口语化、兴奋但真实的语气。回复格式JSON：{"persuaded":true/false,"reply":"回应","progress":0-100}`},
   
-  pool:{name:'小明',avatar:'&#128104;',traits:['爱面子','怕被嘲笑'],danger:'正在挑战你去深水区...',scene:'游泳池',bg:'pool',
+  pool:{name:'小明',avatar:'avatar-pool',traits:['爱面子','怕被嘲笑'],danger:'正在挑战你去深水区...',scene:'游泳池',bg:'pool',
     systemPrompt:`你叫小明，是一个爱面子、怕被嘲笑的男孩。你现在在游泳池，正在挑战朋友去深水区，说"敢不敢去？胆小鬼！"
 
 你的性格特点：
@@ -1414,7 +1462,7 @@ const CHARACTERS={
 
 每次回复保持角色性格，用口语化、有点倔强但真实的语气。回复格式JSON：{"persuaded":true/false,"reply":"回应","progress":0-100}`},
   
-  reservoir:{name:'小芳',avatar:'&#128105;',traits:['天真','容易被怂恿'],danger:'正准备在水库边玩耍...',scene:'水库',bg:'reservoir',
+  reservoir:{name:'小芳',avatar:'avatar-reservoir',traits:['天真','容易被怂恿'],danger:'正准备在水库边玩耍...',scene:'水库',bg:'reservoir',
     systemPrompt:`你叫小芳，是一个天真、容易被怂恿的小女孩。你现在在大水库边，朋友说"这里没人管，可以随便玩"，你觉得有道理。
 
 你的性格特点：
@@ -1430,7 +1478,7 @@ const CHARACTERS={
 
 每次回复保持角色性格，用口语化、天真但真实的语气。回复格式JSON：{"persuaded":true/false,"reply":"回应","progress":0-100}`},
   
-  construction:{name:'小强',avatar:'&#128118;',traits:['贪玩','不顾危险'],danger:'正在工地水坑里踩水...',scene:'工地水坑',bg:'construction',
+  construction:{name:'小强',avatar:'avatar-construction',traits:['贪玩','不顾危险'],danger:'正在工地水坑里踩水...',scene:'工地水坑',bg:'construction',
     systemPrompt:`你叫小强，是一个贪玩、不顾危险的小男孩。你现在在工地的大水坑里，正在开心地踩水玩。
 
 你的性格特点：
@@ -1541,7 +1589,7 @@ function updateIslandMap(){
       if(char){
         const div=document.createElement('div');
         div.className='saved-char';
-        div.innerHTML=`<span class="char-emoji">${char.avatar}</span><span>${char.name}（${char.scene}）</span>`;
+        div.innerHTML=`<span class="char-emoji"><div class="avatar-face ${char.avatar}"><div class="avatar-hair"></div><div class="avatar-eyes"><div class="eye left"></div><div class="eye right"></div></div><div class="avatar-mouth"></div><div class="avatar-body"></div></div></span><span>${char.name}（${char.scene}）</span>`;
         savedList.appendChild(div);
       }
     });
@@ -1566,7 +1614,8 @@ function enterScene(sceneId){
   document.getElementById('scene-atmosphere').innerHTML = atmosphereTexts[sceneId] || '';
 
   // 设置角色信息
-  document.getElementById('char-avatar').innerHTML=char.avatar;
+  const avatarEl = document.getElementById('char-avatar');
+  avatarEl.innerHTML = `<div class="avatar-face ${char.avatar}"><div class="avatar-hair"></div><div class="avatar-eyes"><div class="eye left"></div><div class="eye right"></div></div><div class="avatar-mouth"></div><div class="avatar-body"></div></div>`;
   document.getElementById('char-name').textContent=char.name;
   document.getElementById('char-traits').innerHTML=char.traits.map(t=>`<span class="trait-tag">${t}</span>`).join('');
   document.getElementById('char-danger').textContent=char.danger;
@@ -1903,7 +1952,7 @@ function renderReview(){
   // 已拯救的小朋友
   const savedChars=document.getElementById('saved-characters');
   if(GameState.savedCharacters.length===0){savedChars.innerHTML='<span style="color:var(--text-dim);font-size:0.9rem;">还没有拯救任何小朋友，快去安全岛探索吧！</span>';}
-  else{savedChars.innerHTML='';GameState.savedCharacters.forEach(id=>{const char=CHARACTERS[id];if(char){const div=document.createElement('div');div.className='saved-char';div.innerHTML=`<span class="char-emoji">${char.avatar}</span><span>${char.name}</span>`;savedChars.appendChild(div);}});}
+  else{savedChars.innerHTML='';GameState.savedCharacters.forEach(id=>{const char=CHARACTERS[id];if(char){const div=document.createElement('div');div.className='saved-char';div.innerHTML=`<span class="char-emoji"><div class="avatar-face ${char.avatar}"><div class="avatar-hair"></div><div class="avatar-eyes"><div class="eye left"></div><div class="eye right"></div></div><div class="avatar-mouth"></div><div class="avatar-body"></div></div></span><span>${char.name}</span>`;savedChars.appendChild(div);}});}
   
   // AI评语
   const saved=GameState.savedCharacters.length;
