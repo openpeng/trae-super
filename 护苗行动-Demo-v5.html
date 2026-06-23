@@ -196,7 +196,15 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 .island-water{position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,64,175,0.3) 0%,transparent 40%);}
 .island-water::after{content:'';position:absolute;bottom:0;left:0;right:0;height:45%;background:repeating-linear-gradient(90deg, transparent, rgba(255,255,255,0.03) 20px, transparent 40px);animation:waterShimmer 4s linear infinite;}
 @keyframes waterShimmer{to{background-position:40px 0;}}
+
+/* 陆地与海岸线 */
 .island-land{position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(180deg,#10b981 0%,#22c55e 50%,#16a34a 100%);border-radius:50% 50% 0 0 / 20% 20% 0 0;}
+.island-land::before{content:'';position:absolute;bottom:100%;left:0;right:0;height:24px;background:radial-gradient(circle at 20% 100%, transparent 14px, #10b981 15px),radial-gradient(circle at 40% 100%, transparent 14px, #10b981 15px),radial-gradient(circle at 60% 100%, transparent 14px, #10b981 15px),radial-gradient(circle at 80% 100%, transparent 14px, #10b981 15px);background-size:40px 24px;background-position:0 0,20px 0,40px 0,60px 0;margin-bottom:-1px;}
+.island-land::after{content:'';position:absolute;bottom:0;left:0;right:0;height:100%;border-radius:50% 50% 0 0 / 20% 20% 0 0;box-shadow:inset 0 8px 20px rgba(0,0,0,0.08);pointer-events:none;}
+
+/* 沙滩层 */
+.island-beach{position:absolute;bottom:0;left:5%;right:5%;height:18%;background:linear-gradient(180deg,#fde68a 0%,#fbbf24 100%);border-radius:50% 50% 0 0 / 40% 40% 0 0;opacity:0.7;z-index:1;}
+.island-beach::before{content:'';position:absolute;bottom:100%;left:0;right:0;height:16px;background:radial-gradient(circle at 25% 100%, transparent 12px, #fde68a 13px),radial-gradient(circle at 55% 100%, transparent 12px, #fde68a 13px),radial-gradient(circle at 85% 100%, transparent 12px, #fde68a 13px);background-size:50px 16px;margin-bottom:-1px;}
 
 /* 地图装饰元素 */
 .map-tree{position:absolute;z-index:3;}
@@ -207,15 +215,88 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
 .map-path.path-2{width:60px;left:55%;top:45%;transform:rotate(25deg);}
 .map-path.path-3{width:70px;left:35%;top:70%;transform:rotate(-5deg);}
 
+/* 太阳 */
+.map-sun{position:absolute;top:8%;right:10%;width:48px;height:48px;background:#fbbf24;border-radius:50%;z-index:2;box-shadow:0 0 20px rgba(251,191,36,0.5),0 0 40px rgba(251,191,36,0.2);animation:sunGlow 3s ease-in-out infinite;}
+.map-sun::before{content:'';position:absolute;inset:-12px;border-radius:50%;border:2px dashed rgba(251,191,36,0.3);animation:sunRotate 12s linear infinite;}
+@keyframes sunGlow{0%,100%{box-shadow:0 0 20px rgba(251,191,36,0.5),0 0 40px rgba(251,191,36,0.2);}50%{box-shadow:0 0 30px rgba(251,191,36,0.7),0 0 60px rgba(251,191,36,0.3);}}
+@keyframes sunRotate{to{transform:rotate(360deg);}}
+
+/* 云朵 */
+.map-cloud{position:absolute;background:#fff;border-radius:999px;z-index:2;opacity:0.9;}
+.map-cloud::before,.map-cloud::after{content:'';position:absolute;background:#fff;border-radius:50%;}
+.map-cloud.cloud-1{width:60px;height:24px;top:12%;left:15%;animation:cloudFloat 8s ease-in-out infinite;}
+.map-cloud.cloud-1::before{width:28px;height:28px;top:-14px;left:10px;}
+.map-cloud.cloud-1::after{width:20px;height:20px;top:-8px;left:32px;}
+.map-cloud.cloud-2{width:48px;height:20px;top:18%;left:55%;animation:cloudFloat 10s ease-in-out infinite 2s;}
+.map-cloud.cloud-2::before{width:24px;height:24px;top:-12px;left:8px;}
+.map-cloud.cloud-2::after{width:18px;height:18px;top:-6px;left:26px;}
+@keyframes cloudFloat{0%,100%{transform:translateX(0);}50%{transform:translateX(20px);}}
+
+/* 小船 */
+.map-boat{position:absolute;bottom:22%;left:8%;z-index:2;animation:boatBob 3s ease-in-out infinite;}
+.map-boat .boat-hull{width:36px;height:14px;background:#92400e;border-radius:0 0 18px 18px;position:relative;}
+.map-boat .boat-sail{width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:22px solid #f8fafc;position:absolute;bottom:14px;left:8px;}
+@keyframes boatBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+
+/* 石头 */
+.map-rock{position:absolute;background:#78716c;border-radius:40% 60% 50% 50%;z-index:3;box-shadow:inset -2px -2px 4px rgba(0,0,0,0.15);}
+.map-rock.rock-1{width:14px;height:10px;left:18%;top:62%;transform:rotate(-10deg);}
+.map-rock.rock-2{width:10px;height:8px;left:22%;top:64%;transform:rotate(15deg);background:#a8a29e;}
+.map-rock.rock-3{width:12px;height:9px;left:62%;top:58%;transform:rotate(-5deg);}
+
+/* 热点 */
 .map-hotspot{position:absolute;transform:translate(-50%,-50%);cursor:pointer;z-index:10;}
-.map-hotspot .hotspot-pulse{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.2);animation:hotspotPulse 2s ease-in-out infinite;display:flex;align-items:center;justify-content:center;font-size:1.5rem;position:relative;}
-.map-hotspot .hotspot-pulse::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:2px solid rgba(255,255,255,0.15);animation:hotspotRing 2s ease-out infinite;}
-.map-hotspot .hotspot-pulse::after{content:'';position:absolute;inset:-16px;border-radius:50%;border:1px solid rgba(255,255,255,0.08);animation:hotspotRing 2s ease-out 0.5s infinite;}
-@keyframes hotspotRing{0%{transform:scale(0.8);opacity:1;}100%{transform:scale(1.5);opacity:0;}}
-.map-hotspot .hotspot-label{position:absolute;top:55px;left:50%;transform:translateX(-50%);white-space:nowrap;background:rgba(0,0,0,0.6);padding:0.3rem 0.8rem;border-radius:999px;font-size:0.8rem;font-weight:600;color:#fff;}
+.map-hotspot .hotspot-pulse{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,0.25);animation:hotspotPulse 2s ease-in-out infinite;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 4px 15px rgba(0,0,0,0.15);}
+.map-hotspot .hotspot-pulse::before{content:'';position:absolute;inset:-10px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);animation:hotspotRing 2s ease-out infinite;}
+.map-hotspot .hotspot-pulse::after{content:'';position:absolute;inset:-20px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);animation:hotspotRing 2s ease-out 0.5s infinite;}
+@keyframes hotspotRing{0%{transform:scale(0.8);opacity:1;}100%{transform:scale(1.6);opacity:0;}}
+.map-hotspot .hotspot-label{position:absolute;top:65px;left:50%;transform:translateX(-50%);white-space:nowrap;background:rgba(0,0,0,0.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:0.35rem 0.9rem;border-radius:999px;font-size:0.8rem;font-weight:600;color:#fff;border:1px solid rgba(255,255,255,0.1);}
 .map-hotspot.completed .hotspot-pulse{background:rgba(16,185,129,0.3);animation:none;}
 .map-hotspot.completed::after{content:'✓';position:absolute;top:-5px;right:-5px;width:20px;height:20px;background:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:900;}
-@keyframes hotspotPulse{0%,100%{transform:scale(1);opacity:0.8;}50%{transform:scale(1.3);opacity:0.3;}}
+@keyframes hotspotPulse{0%,100%{transform:scale(1);opacity:0.9;}50%{transform:scale(1.15);opacity:0.5;}}
+
+/* 热点场景色 - 增强对比度 */
+.map-hotspot[data-scene="river"] .hotspot-pulse{background:rgba(59,130,246,0.55);}
+.map-hotspot[data-scene="beach"] .hotspot-pulse{background:rgba(251,191,36,0.55);}
+.map-hotspot[data-scene="pool"] .hotspot-pulse{background:rgba(6,182,212,0.55);}
+.map-hotspot[data-scene="reservoir"] .hotspot-pulse{background:rgba(100,116,139,0.55);}
+.map-hotspot[data-scene="construction"] .hotspot-pulse{background:rgba(249,115,22,0.55);}
+
+/* ===== 热点CSS矢量图标 ===== */
+.hotspot-icon{width:36px;height:36px;position:relative;flex-shrink:0;}
+
+/* 河边 - 河流+小草 */
+.icon-river .river-wave{position:absolute;width:28px;height:10px;background:#3b82f6;border-radius:0 0 14px 14px;top:14px;left:4px;}
+.icon-river .river-wave::before{content:'';position:absolute;width:20px;height:8px;background:#60a5fa;border-radius:0 0 10px 10px;top:-4px;left:4px;}
+.icon-river .grass{position:absolute;bottom:2px;width:3px;height:6px;background:#22c55e;border-radius:2px 2px 0 0;}
+.icon-river .grass.g1{left:8px;transform:rotate(-10deg);}
+.icon-river .grass.g2{left:14px;height:7px;}
+.icon-river .grass.g3{left:20px;transform:rotate(10deg);}
+
+/* 海滩 - 太阳伞+沙滩球 */
+.icon-beach .umbrella-top{position:absolute;top:4px;left:8px;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:14px solid #ef4444;}
+.icon-beach .umbrella-top::after{content:'';position:absolute;top:0;left:-5px;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:14px solid #f87171;}
+.icon-beach .umbrella-pole{position:absolute;top:18px;left:17px;width:2px;height:14px;background:#78716c;}
+.icon-beach .ball{position:absolute;width:8px;height:8px;background:#fbbf24;border-radius:50%;bottom:6px;right:6px;}
+.icon-beach .ball::after{content:'';position:absolute;width:4px;height:8px;background:#ef4444;border-radius:0 4px 4px 0;right:0;top:0;}
+
+/* 泳池 - 泳池+跳板 */
+.icon-pool .pool-water{position:absolute;width:26px;height:14px;background:#06b6d4;border-radius:3px;bottom:8px;left:5px;}
+.icon-pool .pool-water::before{content:'';position:absolute;width:20px;height:3px;background:#67e8f9;border-radius:2px;top:3px;left:3px;opacity:0.6;}
+.icon-pool .board{position:absolute;width:10px;height:3px;background:#d97706;border-radius:2px;top:10px;left:18px;}
+.icon-pool .board-pole{position:absolute;width:2px;height:10px;background:#9ca3af;top:14px;left:22px;}
+
+/* 水库 - 水坝+水流 */
+.icon-reservoir .dam{position:absolute;width:24px;height:16px;background:#94a3b8;clip-path:polygon(10% 0, 90% 0, 100% 100%, 0 100%);bottom:10px;left:6px;}
+.icon-reservoir .dam::before{content:'';position:absolute;width:20px;height:12px;background:#cbd5e1;clip-path:polygon(10% 0, 90% 0, 100% 100%, 0 100%);top:2px;left:2px;}
+.icon-reservoir .flow{position:absolute;width:6px;height:10px;background:#3b82f6;border-radius:0 0 3px 3px;bottom:2px;left:15px;opacity:0.8;}
+.icon-reservoir .flow::after{content:'';position:absolute;width:4px;height:6px;background:#60a5fa;border-radius:0 0 2px 2px;top:6px;left:1px;}
+
+/* 工地 - 警示锥+水坑 */
+.icon-construction .cone{position:absolute;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:18px solid #f97316;bottom:10px;left:10px;}
+.icon-construction .cone::before{content:'';position:absolute;width:14px;height:3px;background:#f97316;border-radius:2px;bottom:-18px;left:-7px;}
+.icon-construction .cone::after{content:'';position:absolute;width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-bottom:10px solid #fff;top:6px;left:-4px;}
+.icon-construction .puddle{position:absolute;width:18px;height:6px;background:#3b82f6;border-radius:50%;bottom:4px;left:16px;opacity:0.7;}
 
 /* ===== 场景页面 ===== */
 .scene-bg{position:fixed;inset:0;z-index:0;transition:all 0.6s;}
@@ -534,6 +615,25 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
     <div class="island-map" id="island-map">
       <div class="island-water"></div>
       <div class="island-land"></div>
+      <div class="island-beach"></div>
+
+      <!-- 地图装饰：太阳 -->
+      <div class="map-sun"></div>
+
+      <!-- 地图装饰：云朵 -->
+      <div class="map-cloud cloud-1"></div>
+      <div class="map-cloud cloud-2"></div>
+
+      <!-- 地图装饰：小船 -->
+      <div class="map-boat">
+        <div class="boat-hull"></div>
+        <div class="boat-sail"></div>
+      </div>
+
+      <!-- 地图装饰：石头 -->
+      <div class="map-rock rock-1"></div>
+      <div class="map-rock rock-2"></div>
+      <div class="map-rock rock-3"></div>
 
       <!-- 地图装饰：小树 -->
       <div class="map-tree" style="left:10%;top:42%;"></div>
@@ -546,34 +646,63 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
       <div class="map-path path-1"></div>
       <div class="map-path path-2"></div>
       <div class="map-path path-3"></div>
-      
+
       <!-- 河边 -->
       <div class="map-hotspot" style="left:20%;top:55%;" data-scene="river" onclick="enterScene('river')">
-        <div class="hotspot-pulse">&#127754;</div>
+        <div class="hotspot-pulse">
+          <div class="hotspot-icon icon-river">
+            <div class="river-wave"></div>
+            <div class="grass g1"></div>
+            <div class="grass g2"></div>
+            <div class="grass g3"></div>
+          </div>
+        </div>
         <div class="hotspot-label">小河边</div>
       </div>
-      
+
       <!-- 海滩 -->
       <div class="map-hotspot" style="left:75%;top:50%;" data-scene="beach" onclick="enterScene('beach')">
-        <div class="hotspot-pulse">&#127958;</div>
+        <div class="hotspot-pulse">
+          <div class="hotspot-icon icon-beach">
+            <div class="umbrella-top"></div>
+            <div class="umbrella-pole"></div>
+            <div class="ball"></div>
+          </div>
+        </div>
         <div class="hotspot-label">阳光海滩</div>
       </div>
-      
+
       <!-- 泳池 -->
       <div class="map-hotspot" style="left:50%;top:35%;" data-scene="pool" onclick="enterScene('pool')">
-        <div class="hotspot-pulse">&#127946;</div>
+        <div class="hotspot-pulse">
+          <div class="hotspot-icon icon-pool">
+            <div class="pool-water"></div>
+            <div class="board"></div>
+            <div class="board-pole"></div>
+          </div>
+        </div>
         <div class="hotspot-label">游泳池</div>
       </div>
-      
+
       <!-- 水库 -->
       <div class="map-hotspot" style="left:30%;top:75%;" data-scene="reservoir" onclick="enterScene('reservoir')">
-        <div class="hotspot-pulse">&#128674;</div>
+        <div class="hotspot-pulse">
+          <div class="hotspot-icon icon-reservoir">
+            <div class="dam"></div>
+            <div class="flow"></div>
+          </div>
+        </div>
         <div class="hotspot-label">大水库</div>
       </div>
-      
+
       <!-- 工地 -->
       <div class="map-hotspot" style="left:70%;top:70%;" data-scene="construction" onclick="enterScene('construction')">
-        <div class="hotspot-pulse">&#127959;</div>
+        <div class="hotspot-pulse">
+          <div class="hotspot-icon icon-construction">
+            <div class="cone"></div>
+            <div class="puddle"></div>
+          </div>
+        </div>
         <div class="hotspot-label">工地水坑</div>
       </div>
     </div>
