@@ -180,6 +180,18 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
   75%{transform:rotate(-2deg) scaleY(0.98);}
 }
 
+/* ===== API 配置区域 ===== */
+.api-config-toggle{display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;cursor:pointer;transition:all 0.3s;font-size:0.85rem;color:var(--text-dim);margin-top:1rem;}
+.api-config-toggle:hover{background:rgba(255,255,255,0.05);}
+.api-config-toggle .toggle-icon{transition:transform 0.3s;}
+.api-config-toggle.open .toggle-icon{transform:rotate(180deg);}
+.api-config-panel{padding:1rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:12px;margin-top:0.5rem;animation:slideDown 0.3s ease;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.api-config-panel .input-group label{display:block;font-size:0.8rem;color:var(--text-dim);margin-bottom:0.3rem;}
+.api-hint{font-size:0.75rem;color:var(--text-dim);margin-top:0.75rem;text-align:center;}
+.api-hint a{color:var(--wave-2);text-decoration:none;}
+.api-hint a:hover{text-decoration:underline;}
+
 /* ===== 7. "怎么玩"区域优化 ===== */
 .howto-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px;padding:1.5rem;margin-top:1rem;position:relative;overflow:hidden;}
 .howto-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);}
@@ -617,6 +629,23 @@ body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;backg
     <div class="glass glass-glow">
       <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:0.5rem;">&#9997; 输入你的名字</h3>
       <input type="text" class="input-field" id="player-name" placeholder="例如：小明" maxlength="8">
+    </div>
+
+    <!-- API配置（可选） -->
+    <div class="api-config-toggle" onclick="toggleApiConfig()">
+      <span>&#128295; API 配置（使用火山引擎豆包）</span>
+      <span class="toggle-icon">&#9660;</span>
+    </div>
+    <div class="api-config-panel" id="api-config-panel" style="display:none;">
+      <div class="input-group">
+        <label>API Key</label>
+        <input type="password" class="chat-input" id="api-key-input" placeholder="输入火山引擎 API Key" style="width:100%;">
+      </div>
+      <div class="input-group" style="margin-top:0.75rem;">
+        <label>模型接入点（Endpoint ID）</label>
+        <input type="text" class="chat-input" id="api-model-input" placeholder="例如：ep-20260618230601-xxxxx" style="width:100%;">
+      </div>
+      <p class="api-hint">&#128161; 没有 API Key？<a href="https://console.volcengine.com/ark/" target="_blank">前往火山引擎控制台获取</a></p>
     </div>
 
     <div class="glass">
@@ -1465,10 +1494,20 @@ let isOnline=true;
 let recognition=null;
 let isRecording=false;
 
-// API配置（请替换为您自己的API Key）
-const DOUBAO_API_KEY='YOUR_API_KEY_HERE';
+// API配置（用户可自定义）
 const DOUBAO_API_URL='https://ark.cn-beijing.volces.com/api/v3/chat/completions';
-const DOUBAO_MODEL='YOUR_ENDPOINT_ID_HERE';
+const DEFAULT_API_KEY='YOUR_API_KEY_HERE';
+const DEFAULT_MODEL='YOUR_ENDPOINT_ID_HERE';
+
+function getApiKey(){
+  const userKey=document.getElementById('api-key-input')?.value?.trim();
+  return userKey || DEFAULT_API_KEY;
+}
+
+function getApiModel(){
+  const userModel=document.getElementById('api-model-input')?.value?.trim();
+  return userModel || DEFAULT_MODEL;
+}
 
 // ==================== 角色数据 ====================
 const CHARACTERS={
@@ -1601,6 +1640,19 @@ function goPage(pageId){
   currentPage = pageId;
 }
 
+// ==================== API 配置切换 ====================
+function toggleApiConfig(){
+  const panel=document.getElementById('api-config-panel');
+  const toggle=document.querySelector('.api-config-toggle');
+  if(panel.style.display==='none'){
+    panel.style.display='block';
+    toggle.classList.add('open');
+  }else{
+    panel.style.display='none';
+    toggle.classList.remove('open');
+  }
+}
+
 // ==================== 数字计数器 ====================
 let countersStarted=false;
 function startCounters(){if(countersStarted)return;countersStarted=true;
@@ -1612,8 +1664,16 @@ startCounters();
 function checkNetwork(){
   isOnline=navigator.onLine;
   const el=document.getElementById('net-status');
-  if(isOnline){el.textContent='AI在线';el.className='net-status online';}
-  else{el.textContent='离线模式';el.className='net-status offline';}
+  if(isOnline){
+    const apiKey=getApiKey();
+    const model=getApiModel();
+    const isCustom=apiKey!=='YOUR_API_KEY_HERE' && model!=='YOUR_ENDPOINT_ID_HERE';
+    el.textContent=isCustom?'AI在线（自定义）':'AI在线（默认）';
+    el.className='net-status online';
+  }else{
+    el.textContent='离线模式';
+    el.className='net-status offline';
+  }
 }
 window.addEventListener('online',checkNetwork);
 window.addEventListener('offline',checkNetwork);
@@ -1625,6 +1685,13 @@ function startAdventure(){
   const name=document.getElementById('player-name').value.trim();
   if(!name){alert('请输入你的名字哦！');return;}
   GameState.player.name=name;
+  
+  const apiKey=getApiKey();
+  const model=getApiModel();
+  if(apiKey!=='YOUR_API_KEY_HERE' && model!=='YOUR_ENDPOINT_ID_HERE'){
+    console.log('使用用户自定义API配置');
+  }
+  
   goPage('island');
 }
 
@@ -1862,10 +1929,18 @@ async function sendChat(){
 
 async function callAIForPersuade(userText){
   const char=GameState.currentCharacter;
+  const apiKey=getApiKey();
+  const model=getApiModel();
+  
+  // 检查是否使用了默认配置
+  if(apiKey==='YOUR_API_KEY_HERE' || model==='YOUR_ENDPOINT_ID_HERE'){
+    console.warn('使用默认API配置，请配置自己的API Key');
+  }
+  
   const response=await fetch(DOUBAO_API_URL,{
     method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':`Bearer ${DOUBAO_API_KEY}`},
-    body:JSON.stringify({model:DOUBAO_MODEL,messages:[{role:'system',content:char.systemPrompt},{role:'user',content:userText}],temperature:0.8,max_tokens:300})
+    headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+    body:JSON.stringify({model:model,messages:[{role:'system',content:char.systemPrompt},{role:'user',content:userText}],temperature:0.8,max_tokens:300})
   });
   if(!response.ok)throw new Error('API请求失败');
   const data=await response.json();
