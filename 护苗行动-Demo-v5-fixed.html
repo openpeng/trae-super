@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>护苗行动 · 安全岛</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --ocean-deep:#0a1628;--ocean-mid:#0d2847;--ocean-surface:#1a4a7a;
+  --wave-1:#1e6fc4;--wave-2:#4FC3F7;--wave-3:#06b6d4;
+  --sunset:#FF7043;--sunset-glow:#fbbf24;--danger:#ef4444;--danger-glow:#f87171;
+  --success:#10b981;--success-glow:#34d399;--life:#ec4899;--life-glow:#f472b6;
+  --text:#f1f5f9;--text-dim:#94a3b8;--glass:rgba(255,255,255,0.06);--glass-border:rgba(255,255,255,0.1);
+  --island-green:#10b981;--island-sand:#f59e0b;--island-rock:#64748b;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;background:var(--ocean-deep);color:var(--text);min-height:100vh;overflow-x:hidden;position:relative;}
+
+.page{position:fixed;inset:0;z-index:10;display:none;flex-direction:column;overflow-y:auto;overflow-x:hidden;padding-top:70px;}
+.page.active{display:flex;animation:pageIn 0.6s cubic-bezier(0.16,1,0.3,1);}
+@keyframes pageIn{from{opacity:0;transform:translateY(40px) scale(0.98);}to{opacity:1;transform:translateY(0) scale(1);}}
+.page-content{max-width:720px;width:100%;margin:0 auto;padding:1rem 1.2rem 3rem;position:relative;z-index:5;}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(10,22,40,0.9) 0%,transparent 100%);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.1);}
+.nav-brand{display:flex;align-items:center;gap:0.6rem;}
+.nav-brand .logo{width:36px;height:36px;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 0 20px rgba(79,195,247,0.4);}
+.nav-brand span{font-weight:700;font-size:1.05rem;letter-spacing:0.5px;}
+
+.hero-section{text-align:center;padding:2rem 0 1rem;position:relative;}
+.hero-title{font-size:2rem;font-weight:900;color:var(--text);margin-bottom:0.5rem;}
+.hero-sub{color:var(--text-dim);font-size:1rem;max-width:420px;margin:0 auto 1.5rem;}
+
+.glass{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:20px;padding:1.5rem;position:relative;overflow:hidden;margin:1rem 0;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.75rem 1.5rem;border-radius:999px;border:none;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.3s;}
+.btn-primary{background:linear-gradient(135deg,var(--wave-2),var(--wave-3));box-shadow:0 4px 20px rgba(79,195,247,0.4);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(79,195,247,0.5);}
+.btn-outline{background:transparent;border:2px solid var(--glass-border);color:var(--text);}
+.btn-outline:hover{border-color:var(--wave-2);color:var(--wave-2);}
+.btn-sm{padding:0.5rem 1rem;font-size:0.85rem;}
+
+.input-field{width:100%;padding:0.875rem 1.5rem;background:rgba(255,255,255,0.04);border:2px solid var(--glass-border);border-radius:999px;color:var(--text);font-size:1rem;outline:none;font-family:inherit;}
+.input-field:focus{border-color:var(--wave-2);box-shadow:inset 0 2px 8px rgba(0,0,0,0.15),0 0 0 4px rgba(79,195,247,0.15);}
+
+.text-center{text-align:center;}
+
+h3{font-size:1.1rem;font-weight:700;margin-bottom:0.5rem;}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<div class="nav">
+  <div class="nav-brand">
+    <div class="logo">🌊</div>
+    <span>护苗行动 · 安全岛</span>
+  </div>
+</div>
+
+<!-- 页面1: 首页 -->
+<div class="page active" id="page-home">
+  <div class="page-content">
+    <div class="hero-section">
+      <h1 class="hero-title">护苗行动 · 安全岛</h1>
+      <p class="hero-sub">岛上有些小朋友想要做危险的事<br>用你的安全知识，劝说他们远离危险！</p>
+    </div>
+
+    <div class="glass">
+      <h3>✏️ 输入你的名字</h3>
+      <input type="text" class="input-field" id="player-name" placeholder="例如：小明" maxlength="8">
+    </div>
+
+    <div class="glass">
+      <h3>🎮 选择难度</h3>
+      <div id="diff-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.6rem;margin:1rem 0;">
+        <div class="diff-card" data-diff="easy" onclick="selectDiff(this)">
+          <div style="font-weight:700;font-size:0.9rem;">🏝️ 简单</div>
+          <div style="color:var(--text-dim);font-size:0.75rem;">6-8岁</div>
+        </div>
+        <div class="diff-card selected" data-diff="normal" onclick="selectDiff(this)">
+          <div style="font-weight:700;font-size:0.9rem;">🏖️ 标准</div>
+          <div style="color:var(--text-dim);font-size:0.75rem;">9-12岁</div>
+        </div>
+        <div class="diff-card" data-diff="hard" onclick="selectDiff(this)">
+          <div style="font-weight:700;font-size:0.9rem;">🔥 困难</div>
+          <div style="color:var(--text-dim);font-size:0.75rem;">13岁+</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin:2rem 0;">
+      <button class="btn btn-primary" onclick="startGame()" style="padding:1rem 2.5rem;font-size:1.1rem;font-weight:700;">🌊 进入安全岛</button>
+    </div>
+
+    <div class="glass">
+      <h3>📖 怎么玩？</h3>
+      <div style="font-size:0.9rem;color:var(--text-dim);line-height:1.8;">
+        <p>1️⃣ 进入安全岛，看到不同区域有小朋友</p>
+        <p>2️⃣ 点击区域，看到小朋友正在做危险的事</p>
+        <p>3️⃣ 用<strong style="color:var(--wave-2);">说话</strong>或打字告诉小朋友为什么危险</p>
+        <p>4️⃣ 说服成功，小朋友会感谢你，获得<strong style="color:var(--wave-2);">安全勋章</strong>！</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 页面2: 岛屿地图 -->
+<div class="page" id="page-island">
+  <div class="page-content">
+    <div class="text-center" style="padding:1rem 0;">
+      <h2 style="font-size:1.5rem;font-weight:900;">🏝️ 安全岛</h2>
+      <p style="color:var(--text-dim);font-size:0.9rem;margin-top:0.3rem;">点击闪烁的区域，帮助小朋友远离危险</p>
+    </div>
+
+    <div class="glass" style="padding:2rem;text-align:center;height:400px;display:flex;align-items:center;justify-content:center;">
+      <div>
+        <p style="font-size:1.2rem;margin-bottom:1rem;">🏝️ 安全岛地图</p>
+        <button class="btn btn-outline" onclick="enterScene('river')" style="margin:0.5rem;">河边 - 小刚</button><br>
+        <button class="btn btn-outline" onclick="enterScene('beach')" style="margin:0.5rem;">海滩 - 小红</button><br>
+        <button class="btn btn-outline" onclick="enterScene('pool')" style="margin:0.5rem;">游泳池 - 小明</button><br>
+        <button class="btn btn-outline" onclick="enterScene('construction')" style="margin:0.5rem;">工地 - 小强</button>
+      </div>
+    </div>
+
+    <div class="glass">
+      <h3>🎯 已救援的小朋友</h3>
+      <div id="saved-list" style="color:var(--text-dim);font-size:0.9rem;">还没有救援任何小朋友，快去安全岛探索吧！</div>
+    </div>
+
+    <button class="btn btn-primary" onclick="goPage('home')" style="width:100%;margin-top:1rem;">⬅️ 返回首页</button>
+  </div>
+</div>
+
+<!-- 页面3: 场景对话 -->
+<div class="page" id="page-scene">
+  <div class="page-content">
+    <button class="btn btn-outline btn-sm" onclick="goPage('island')" style="margin-bottom:1rem;">🏠 返回地图</button>
+
+    <div class="glass" style="padding:1rem;background:rgba(0,0,0,0.3);text-align:center;font-size:0.9rem;margin-bottom:1rem;" id="scene-desc">
+      清晰的河水缓缓流淌，但暗流涌动...
+    </div>
+
+    <div class="glass" style="padding:1.25rem;margin-bottom:1rem;">
+      <h3 id="char-name">小刚</h3>
+      <p id="char-action" style="color:var(--danger-glow);font-weight:600;margin-top:0.5rem;">正在河边准备下水...</p>
+    </div>
+
+    <div class="glass">
+      <div id="chat-box" style="height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:0.75rem;padding:0.5rem;margin-bottom:1rem;">
+        <div style="display:flex;gap:0.5rem;">
+          <div style="color:var(--wave-2);font-weight:700;font-size:0.9rem;">小刚：</div>
+          <div style="color:var(--text-dim);">快来啊！水好清！</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;">
+        <input type="text" class="input-field" id="chat-input" placeholder="输入你想说的话..." style="flex:1;padding:0.75rem 1rem;" onkeypress="if(event.key==='Enter')sendMessage()">
+        <button class="btn btn-primary" onclick="sendMessage()" style="padding:0.75rem 1.5rem;">发送</button>
+      </div>
+    </div>
+
+    <div class="glass">
+      <p style="font-size:0.85rem;color:var(--text-dim);">
+        💡 提示：用安全知识说服小朋友，比如"水里有暗流没有救生员很危险"或"河水太深了容易溺水"
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- 页面4: 成长档 -->
+<div class="page" id="page-review">
+  <div class="page-content">
+    <div class="text-center" style="padding:2rem 0;">
+      <div style="font-size:3rem;margin-bottom:1rem;">🏆</div>
+      <h2 style="font-size:1.6rem;font-weight:900;">安全成长档</h2>
+      <p style="color:var(--text-dim);margin-top:0.5rem;">看看你的安全能力提升了多少！</p>
+    </div>
+
+    <div class="glass">
+      <h3>📊 成绩统计</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0;">
+        <div style="text-align:center;padding:1rem;background:rgba(79,195,247,0.1);border-radius:12px;">
+          <div style="font-size:2rem;font-weight:900;color:var(--sunset);" id="rs-score">0</div>
+          <div style="font-size:0.8rem;color:var(--text-dim);margin-top:0.2rem;">安全分数</div>
+        </div>
+        <div style="text-align:center;padding:1rem;background:rgba(79,195,247,0.1);border-radius:12px;">
+          <div style="font-size:2rem;font-weight:900;color:var(--wave-2);" id="rs-saved">0</div>
+          <div style="font-size:0.8rem;color:var(--text-dim);margin-top:0.2rem;">救援人数</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass">
+      <h3>🎯 已救援的小朋友</h3>
+      <div id="saved-chars" style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:1rem 0;">
+        <span style="color:var(--text-dim);font-size:0.9rem;">还没有救援任何小朋友</span>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="goPage('home')" style="width:100%;margin-top:2rem;">🔄 再来一次</button>
+  </div>
+</div>
+
+<script>
+// 游戏状态
+let gameState = {
+  playerName: '小朋友',
+  difficulty: 'normal',
+  currentScene: null,
+  savedCharacters: [],
+  score: 0,
+  chatRounds: 0
+};
+
+// 场景数据
+const scenes = {
+  river: {
+    name: '小刚',
+    action: '正在河边准备下水游泳',
+    description: '清晰的河水缓缓流淌，但暗流涌动...',
+    dangers: ['水里可能有暗流', '没有救生员在场', '河水深度不明', '可能有溺水风险'],
+    hints: ['告诉他水的危险', '说缺少救援措施', '讲述淹溺案例', '建议去安全地方']
+  },
+  beach: {
+    name: '小红',
+    action: '正在沙滩上准备独自远离人群',
+    description: '炎热的海滩，骄阳似火...',
+    dangers: ['可能走丢', '中暑风险', '没有大人陪伴', '海水危险'],
+    hints: ['说明安全的重要性', '讲述走丢的后果', '强调需要监护人陪伴', '介绍中暑预防']
+  },
+  pool: {
+    name: '小明',
+    action: '正在游泳池边跃跃欲试',
+    description: '游泳池水清波荡...',
+    dangers: ['可能不会游泳', '没有教练指导', '可能会溺水', '需要安全措施'],
+    hints: ['建议学会游泳再下水', '讲述溺水危险', '强调救生员的作用', '介绍安全装备']
+  },
+  construction: {
+    name: '小强',
+    action: '正在工地边上玩耍',
+    description: '施工现场，各种工具和机器轰鸣...',
+    dangers: ['建筑工具危险', '可能被击中', '容易磕碰受伤', '没有安全保护'],
+    hints: ['解释工地的危险性', '讲述安全帽作用', '说明禁止区域的原因', '教育安全意识']
+  }
+};
+
+// 导航
+function goPage(pageName) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageName).classList.add('active');
+}
+
+// 难度选择
+function selectDiff(element) {
+  document.querySelectorAll('.diff-card').forEach(card => card.classList.remove('selected'));
+  element.classList.add('selected');
+  gameState.difficulty = element.dataset.diff;
+}
+
+// 开始游戏
+function startGame() {
+  const name = document.getElementById('player-name').value.trim();
+  if(!name) {
+    alert('请输入你的名字');
+    return;
+  }
+  gameState.playerName = name;
+  goPage('island');
+}
+
+// 进入场景
+function enterScene(sceneKey) {
+  gameState.currentScene = sceneKey;
+  gameState.chatRounds = 0;
+  const scene = scenes[sceneKey];
+  
+  document.getElementById('scene-desc').textContent = scene.description;
+  document.getElementById('char-name').textContent = scene.name;
+  document.getElementById('char-action').textContent = scene.action;
+  
+  // 清空聊天记录
+  const chatBox = document.getElementById('chat-box');
+  chatBox.innerHTML = '';
+  
+  // 显示初始对话
+  addChatMessage(scene.name, `我想${scene.action}！`, 'bot');
+  
+  goPage('scene');
+}
+
+// 发送消息
+function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const message = input.value.trim();
+  if(!message) return;
+  
+  addChatMessage('你', message, 'user');
+  input.value = '';
+  gameState.chatRounds++;
+  
+  // 模拟AI回复
+  setTimeout(() => {
+    const scene = scenes[gameState.currentScene];
+    const responses = [
+      `嗯...你说得对，我没想到这一点`,
+      `可能...可能你说得有道理`,
+      `我...我会更小心的`,
+      `谢谢你告诉我，我不想有危险`
+    ];
+    
+    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+    addChatMessage(scene.name, randomResponse, 'bot');
+    
+    // 5轮后成功说服
+    if(gameState.chatRounds >= 3) {
+      setTimeout(() => {
+        successScene();
+      }, 1000);
+    }
+  }, 500);
+}
+
+// 添加聊天消息
+function addChatMessage(speaker, text, type) {
+  const chatBox = document.getElementById('chat-box');
+  const msgDiv = document.createElement('div');
+  msgDiv.style.display = 'flex';
+  msgDiv.style.gap = '0.5rem';
+  msgDiv.style.marginBottom = '0.5rem';
+  
+  if(type === 'user') {
+    msgDiv.style.justifyContent = 'flex-end';
+    msgDiv.innerHTML = `
+      <div style="max-width:70%;padding:0.75rem 1rem;background:linear-gradient(135deg,var(--wave-2),var(--wave-3));color:#fff;border-radius:16px;border-bottom-right-radius:4px;word-wrap:break-word;">
+        ${text}
+      </div>
+    `;
+  } else {
+    msgDiv.innerHTML = `
+      <div style="font-weight:700;color:var(--wave-2);flex-shrink:0;min-width:60px;">${speaker}：</div>
+      <div style="color:var(--text);word-wrap:break-word;flex:1;">${text}</div>
+    `;
+  }
+  
+  chatBox.appendChild(msgDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// 成功救援
+function successScene() {
+  const scene = scenes[gameState.currentScene];
+  
+  // 添加成功信息
+  addChatMessage(scene.name, `谢谢你！你让我明白了什么是真正的安全。我会远离危险！`, 'bot');
+  
+  // 保存救援
+  if(!gameState.savedCharacters.includes(scene.name)) {
+    gameState.savedCharacters.push(scene.name);
+    gameState.score += 100;
+  }
+  
+  // 禁用输入
+  document.getElementById('chat-input').disabled = true;
+  document.querySelector('[onclick="sendMessage()"]').disabled = true;
+  
+  // 显示祝贺
+  setTimeout(() => {
+    alert(`🎉 恭喜！你成功说服了${scene.name}！\n获得100点安全分数！`);
+  }, 500);
+}
+
+// 返回岛屿地图时更新信息
+function updateIslandInfo() {
+  const savedList = document.getElementById('saved-list');
+  if(gameState.savedCharacters.length > 0) {
+    savedList.innerHTML = `已救援：${gameState.savedCharacters.join('、')}`;
+  }
+}
+
+// 查看成长档时更新数据
+function updateReview() {
+  document.getElementById('rs-score').textContent = gameState.score;
+  document.getElementById('rs-saved').textContent = gameState.savedCharacters.length;
+  
+  const savedChars = document.getElementById('saved-chars');
+  if(gameState.savedCharacters.length > 0) {
+    savedChars.innerHTML = gameState.savedCharacters.map(name => 
+      `<span style="padding:0.5rem 1rem;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:999px;font-size:0.9rem;">✓ ${name}</span>`
+    ).join('');
+  }
+}
+
+// 重写导航函数以更新信息
+const originalGoPage = goPage;
+goPage = function(pageName) {
+  originalGoPage(pageName);
+  if(pageName === 'island') updateIslandInfo();
+  if(pageName === 'review') updateReview();
+};
+</script>
+
+</body>
+</html>
